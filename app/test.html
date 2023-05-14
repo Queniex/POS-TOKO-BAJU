@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/js/jquery-3.6.3.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+      integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+    <style>
+      /* * {
+        border: 1px solid red;
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <nav
+          id="sidebarMenu"
+          class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+        >
+          <div class="position-sticky pt-3 sidebar-sticky bg-info">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span data-feather="home" class="align-text-bottom"></span>
+                  Dashboard
+                </a>
+              </li>
+            </ul>
+
+            <!-- Manajemen Barang -->
+            <ul class="nav flex-column">
+              <h6
+                class="sidebar-heading text-muted d-flex flex-col justify-content-between align-items-center px-3 mt-4 fs-6 fw-bold"
+              >
+                Manajemen Barang
+              </h6>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Daftar Barang
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Tambah Barang
+                </a>
+              </li>
+            </ul>
+
+            <!-- Manajemen Pemesanan -->
+            <ul class="nav flex-column">
+              <h6
+                class="sidebar-heading text-muted d-flex flex-col justify-content-between align-items-center px-3 mt-4 fs-6 fw-bold"
+              >
+                Manajemen Pemesanan
+              </h6>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Daftar Pemesanan
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Tambah Pemesanan
+                </a>
+              </li>
+            </ul>
+
+            <!-- Manajemen Transaksi -->
+            <ul class="nav flex-column">
+              <h6
+                class="sidebar-heading text-muted d-flex flex-col justify-content-between align-items-center px-3 mt-4 fs-6 fw-bold"
+              >
+                Manajemen Transaksi
+              </h6>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Daftar Transaksi
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Tambah Transaksi
+                </a>
+              </li>
+            </ul>
+
+            <!-- Manajemen Karyawan -->
+            <ul class="nav flex-column">
+              <h6
+                class="sidebar-heading text-muted d-flex flex-col justify-content-between align-items-center px-3 mt-4 fs-6 fw-bold"
+              >
+                Manajemen Karyawan
+              </h6>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Daftar Karyawan
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <span
+                    data-feather="file-text"
+                    class="align-text-bottom"
+                  ></span>
+                  Tambah Karyawan
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div class="mt-4">
+            <hr />
+            <div class="d-flex flex-row mb-2">
+              <h1 class="fw-semibold">TAMBAH BARANG</h1>
+            </div>
+            <hr />
+          </div>
+          <div class="border border-dark">
+            <div class="row g-3 m-3">
+              <div class="col">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+              </div>
+              <div class="col">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Last name"
+                  aria-label="Last name"
+                />
+              </div>
+              <div class="col">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Last name"
+                  aria-label="Last name"
+                />
+              </div>
+            </div>
+
+            <div class="row g-3 mx-3 mb-3">
+              <div class="col">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+              </div>
+              <div class="col">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Last name"
+                  aria-label="Last name"
+                />
+              </div>
+            </div>
+
+            <div class="row g-3 mx-3 mb-3">
+              <div class="col-6">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+              </div>
+            </div>
+
+            <div class="card-footer text-center my-5">
+              <button class="btn btn-dark" form="create-form" type="submit">
+                <i class="fa fa-save"></i> Save Details
+              </button>
+              <button class="btn btn-secondary" form="create-form" type="reset">
+                <i class="fa fa-times"></i> Reset
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
