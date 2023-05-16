@@ -79,9 +79,9 @@ class ProductController extends BaseController
             } 
             if($save){
                     if(!empty($this->request->getPost('id_barang')))
-                    $this->session->setFlashdata('success_message','Data has been updated successfully') ;
-                    else
-                    $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+                    // $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+                    // else
+                    // $this->session->setFlashdata('success_message','Data has been updated successfully') ;
                     $id =!empty($this->request->getPost('id_barang')) ? $this->request->getPost('id_barang') : $save;
                     return redirect()->to('/product/index');
                 }else{
@@ -117,13 +117,8 @@ class ProductController extends BaseController
             return redirect()->to(base_url('/login'))->with('daftar_berhasil', 'Pendaftaran Akun Berhasil');
         }
 
-        // // 1. Mencari file gambar berdasarkan id :
-        // $gambar = $this->product_model->find($id);
-        // // 2. Cek gambar bukan default.jpg :
-        // if ($gambar['foto_barang'] != 'default.jpg') {
-        //   // 3. Hapus gambar dari file img :
-        //   unlink('img/product/' . $gambar['foto_barang']);   
-        // }
+        $foto = $this->product_model->select('foto_barang')->where('id_barang', $id)->first()['foto_barang'];
+        unlink('img/product/' . $foto);
 
         $delete = $this->product_model->delete($id);
         if($delete){

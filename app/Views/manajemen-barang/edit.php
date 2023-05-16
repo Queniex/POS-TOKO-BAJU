@@ -53,9 +53,9 @@
 
             <div class="row m-3">
                 <div class="col-6">
-                    <label for="foto_barang" class="form-label">Foto Barang</label>
+                    <label for="foto_barang" class="form-label">Foto Karyawan</label>
                     <img src="/img/product/<?= $data['foto_barang']; ?>" alt="" class="img-preview d-block my-3" width="200" height="200">
-                    <input type="file" class="form-control" name="foto_barang" id="foto_barang">               
+                    <input type="file" class="form-control" name="foto_barang" id="foto_barang">           
                 </div>
             </div>
             

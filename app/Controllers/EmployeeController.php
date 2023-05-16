@@ -44,21 +44,32 @@ class EmployeeController extends BaseController
         return view('manajemen-karyawan/add_account', $this->data);
     }
 
-    public function next(){
+    public function next($id=''){
         // var_dump($this->request->getPost('username'));
-        session();  
 
+        $id = $this->request->getPost('id');
+        
+        session();  
         $this->data = [
             "page-title" => "Tambah Karyawan",
-            "menu" => "employee-add",
             'validation' => \Config\Services::validation(),
+            "menu" => "employee-add",
             "username" => $this->request->getPost('username'),
             "email" => $this->request->getPost('email'),
             "password" => $this->request->getPost('password'),
             "role" => $this->request->getPost('role'),
             "request"=>$this->request
         ];
-        return view('manajemen-karyawan/add_employee', $this->data);
+
+        if($id != NULL){
+            $idKaryawan = $this->employee_model->select('id_karyawan')->where('id_pengguna', $id)->first()['id_karyawan'];
+            $qry= $this->employee_model->select('*')->where(['id_karyawan'=>$idKaryawan]);
+            $this->data["list"] = $qry->first();
+
+            return view('manajemen-karyawan/edit_employee', $this->data);
+        } else {
+            return view('manajemen-karyawan/add_employee', $this->data);
+        }
     }
 
     // Save Form Page
@@ -111,20 +122,44 @@ class EmployeeController extends BaseController
                 $id =!empty($this->request->getPost('id_karyawan')) ? $this->request->getPost('id_karyawan') : $save;
                 return redirect()->to('/employee/index');
             }else{
-                return view('employee/add_employee', $this->data);
+                return view('manajemen-karyawan/add_employee', $this->data);
             }   
     }
     
     // Edit Form Page
     public function edit($id=''){
-        
+        if(empty($id)){
+            // session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
+            // session()->setFlashdata('warna', 'danger');
+            return redirect()->to('/employee/index');
+        }
+        $idPengguna = $this->employee_model->select('id_pengguna')->where('id_karyawan', $id)->first()['id_pengguna'];
+        $qry= $this->user_model->select('*')->where(['id'=>$idPengguna]);
+
+        $this->data = [
+            "page-title" => "Edit Karyawan",
+            "menu" => "overview",
+            'validation' => \Config\Services::validation(),
+            "request"=>$this->request,
+            "data" => $qry->first()
+        ];
+        return view('manajemen-karyawan/edit_account', $this->data);
     }
 
     // Delete Data
     public function delete($id=''){
-        
+        if(empty($id)){
+            return redirect()->to(base_url('/login'))->with('daftar_berhasil', 'Pendaftaran Akun Berhasil');
+        }
+
+        $foto = $this->employee_model->select('foto_karyawan')->where('id_karyawan', $id)->first()['foto_karyawan'];
+        unlink('img/employee/' . $foto);
+        $idPengguna = $this->employee_model->select('id_pengguna')->where('id_karyawan', $id)->first()['id_pengguna'];
+        $delete = $this->employee_model->delete($id);
+        $deletes = $this->user_model->delete($idPengguna);
+
+        if($delete && $deletes){
+            return redirect()->to('employee/index');
+        }
     }
-
-    
-
 }
