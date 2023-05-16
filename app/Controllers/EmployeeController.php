@@ -63,9 +63,8 @@ class EmployeeController extends BaseController
 
         if($id != NULL){
             $idKaryawan = $this->employee_model->select('id_karyawan')->where('id_pengguna', $id)->first()['id_karyawan'];
-            $qry= $this->employee_model->select('*')->where(['id_karyawan'=>$idKaryawan]);
+            $qry= $this->employee_model->select('*')->join('master_pengguna', 'master_pengguna.id = master_karyawan.id_pengguna')->where(['id_karyawan'=>$idKaryawan]);
             $this->data["list"] = $qry->first();
-
             return view('manajemen-karyawan/edit_employee', $this->data);
         } else {
             return view('manajemen-karyawan/add_employee', $this->data);
@@ -80,33 +79,43 @@ class EmployeeController extends BaseController
             "username" => esc($dataInput['username']),
             "email" => esc($dataInput['email']),
             "password" => password_hash(esc($dataInput['password']), PASSWORD_BCRYPT),
-            "role" => esc($dataInput['role']),
-        ];
-
-        $this->user_model->insert($dataAkun);
-        $idPengguna = $this->user_model->select('id')->where('username', $dataAkun['username'])->first()['id'];
-    
-        $post = [
-            'nama_karyawan' => esc($dataInput['nama_karyawan']),
-            'jenis_kelamin' => esc($dataInput['gender']),
-            'no_tlp' => esc($dataInput['no_tlp']),
-            'alamat' => esc($dataInput['alamat']),
-            'id_pengguna' => $idPengguna
-        ];    
+            "role" => esc($dataInput['role'])
+        ];   
 
         if(!empty($this->request->getPost('id_karyawan'))){
-            $fileSampul = $this->request->getFile('foto_karyawan');
+            $idPengguna = $this->user_model->select('id')->where('username', $dataAkun['username'])->first()['id'];
 
+            $post = [
+                'nama_karyawan' => esc($dataInput['nama_karyawan']),
+                'jenis_kelamin' => esc($dataInput['jenis_kelamin']),
+                'no_tlp' => esc($dataInput['no_tlp']),
+                'alamat' => esc($dataInput['alamat']),
+                'id_pengguna' => $idPengguna
+            ];  
+
+            $fileSampul = $this->request->getFile('foto_karyawan');
+  
             if ($fileSampul->getError() != 4) {
                 unlink('img/employee/' . $this->request->getVar("oldGambar"));
                 $fileSampul->move('img/employee');
                 $namaSampul = $fileSampul->getName();
                 $post['foto_karyawan'] = $namaSampul;
             }
-
+            
             $save = $this->employee_model->where(['id_karyawan'=>$this->request->getPost('id_karyawan')])->set($post)->update();
         }
         else{
+            $this->user_model->insert($dataAkun);
+            $idPengguna = $this->user_model->select('id')->where('username', $dataAkun['username'])->first()['id'];
+
+            $post = [
+                'nama_karyawan' => esc($dataInput['nama_karyawan']),
+                'jenis_kelamin' => esc($dataInput['jenis_kelamin']),
+                'no_tlp' => esc($dataInput['no_tlp']),
+                'alamat' => esc($dataInput['alamat']),
+                'id_pengguna' => $idPengguna
+            ];   
+
             $fileSampul = $this->request->getFile('foto_karyawan');
             $fileSampul->move('img/employee');
             $namaSampul = $fileSampul->getName();
@@ -115,15 +124,16 @@ class EmployeeController extends BaseController
             $save = $this->employee_model->insert($post);
         } 
         if($save){
-                if(!empty($this->request->getPost('id_karyawan')))
-                $this->session->setFlashdata('success_message','Data has been updated successfully') ;
-                else
-                $this->session->setFlashdata('success_message','Data has been updated successfully') ;
-                $id =!empty($this->request->getPost('id_karyawan')) ? $this->request->getPost('id_karyawan') : $save;
-                return redirect()->to('/employee/index');
-            }else{
-                return view('manajemen-karyawan/add_employee', $this->data);
-            }   
+            if(!empty($this->request->getPost('id_karyawan')))
+            $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+            else
+            $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+            $id =!empty($this->request->getPost('id_karyawan')) ? $this->request->getPost('id_karyawan') : $save;
+            return redirect()->to('/employee/index');
+        }else{
+            return view('manajemen-karyawan/add_employee', $this->data);
+        }     
+
     }
     
     // Edit Form Page

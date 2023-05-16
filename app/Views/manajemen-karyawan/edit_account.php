@@ -16,7 +16,7 @@
                 <div class="row g-3 m-3">
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label control-label">Username :</label>
-                    <input type="text" autofocus class="form-control form-control-border" id="username" name="username" value="<?= isset($data['username']) ? $data['username'] : '' ?>" placeholder="Username" required>
+                    <input type="text" autofocus class="form-control form-control-border" id="username" name="username" value="<?= isset($data['username']) ? $data['username'] : '' ?>" placeholder="Username" required disabled>
                 </div>    
                 </div>
   
@@ -30,18 +30,18 @@
                 <div class="row g-3 mx-3 mb-3">
                   <div class="col-12">
                       <label for="inputAddress2" class="form-label control-label">Email :</label>
-                      <input type="email" autofocus class="form-control form-control-border" id="email" name="email" value="<?= isset($data['email']) ? $data['email'] : '' ?>" required="required" placeholder="Email">
+                      <input type="email" autofocus class="form-control form-control-border" id="email" name="email" value="<?= isset($data['email']) ? $data['email'] : '' ?>" required="required" placeholder="Email" disabled>
                   </div>
                   <div class="col-12">
                     <label for="role" class="control-label">Role : </label>
                       <div class="form-group radio">
                     <label class="form-check-label">
-                      <input class="form-check-input" name="role" type="radio" id="role" value="admin" <?= !empty(isset($data['role'])) && isset($data['role']) == 'admin' ? 'checked' : '' ?>>
+                      <input class="form-check-input" name="role" type="radio" id="role" value="admin" <?= !empty(isset($data['role'])) && isset($data['role']) == 'admin' ? 'checked' : '' ?> disabled>
                         ADMIN 
                     <label>
                 
                     <label class="form-check-label ms-3">
-                      <input class="form-check-input" name="role" type="radio" id="role" value="kasir" <?= !empty(isset($data['role'])) && isset($data['role']) == 'kasir' ? 'checked' : '' ?>>
+                      <input class="form-check-input" name="role" type="radio" id="role" value="kasir" <?= !empty(isset($data['role'])) && isset($data['role']) == 'kasir' ? 'checked' : '' ?> disabled>
                         KASIR 
                     </label>
                   </div>

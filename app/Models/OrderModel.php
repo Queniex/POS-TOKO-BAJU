@@ -1,24 +1,24 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 use CodeIgniter\Model;
-
-class UserModel extends Model
+ 
+class OrderModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'master_pengguna';
-    protected $primaryKey       = 'id';
+    protected $table            = 'pemesanan';
+    protected $primaryKey       = 'id_pemesanan';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['username', 'password', 'email', 'role'];
+    protected $allowedFields    = ['id_pesanan', 'id_barang', 'tgl_pemesanan', 'jumlah', 'total_harga', 'nama_pembeli', 'no_tlp'];
 
     // Dates
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
+    protected $createdField  = 'tgl_pemesanan';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
@@ -39,8 +39,17 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAccountByUsername($username)
+    // function get_join($id) {
+    //     $builder = $this->db->table('mahasiswa');
+    //     $builder->join('jp', 'jp.id = mahasiswa.id_jp');
+    //     $query = $builder->where('mahasiswa.id', $id)->get();
+    //     $result = $query->getRow();
+
+    //     return $result;
+    // }
+
+    public function getJenisBarang()
     {
-        return $this->where('username', $username)->first();
+        return $this->findAll(); 
     }
 }

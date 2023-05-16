@@ -50,6 +50,10 @@ $routes->post('/product/(:any)', 'ProductController::$1', ['filter' => 'admin'])
 $routes->get('/employee/(:any)', 'EmployeeController::$1', ['filter' => 'admin']);
 $routes->post('/employee/(:any)', 'EmployeeController::$1', ['filter' => 'admin']);
 
+// POS
+$routes->get('/pos/(:any)', 'OrderController::$1', ['filter' => 'admin']);
+$routes->post('/pos/(:any)', 'OrderController::$1', ['filter' => 'admin']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

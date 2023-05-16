@@ -55,13 +55,11 @@
                     <label for="gender" class="control-label">Gender : </label>
                     <div class="form-group radio">
                     <label class="form-check-label">
-                    <input class="form-check-input" name="gender" type="radio" id="gender" value="Laki-Laki" >
-                        Laki - Laki 
+                        <input class="form-check-input" name="jenis_kelamin" type="radio" id="jenis_kelamin" value="Laki-Laki" <?= !empty($request->getPost('jenis_kelamin')) && $request->getPost('jenis_kelamin') == 'Laki-Laki' ? 'checked' : '' ?> > Laki - Laki
                     <label>
                 
                     <label class="form-check-label ms-3">
-                    <input class="form-check-input" name="gender" type="radio" id="gender" value="Perempuan">
-                        Perempuan 
+                        <input class="form-check-input" name="jenis_kelamin" type="radio" id="jenis_kelamin" value="Perempuan" <?= !empty($request->getPost('jenis_kelamin')) && $request->getPost('jenis_kelamin') == 'Perempuan' ? 'checked' : '' ?> > Perempuan
                     </label>
                 </div>
                 </div>

@@ -36,20 +36,20 @@
                       <label for="inputAddress2" class="form-label control-label">Email :</label>
                       <input type="email" autofocus class="form-control form-control-border" id="email" name="email" value="" required="required" placeholder="Email">
                   </div>
-                  <div class="col-12">
-                    <label for="role" class="control-label">Role : </label>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <label for="status" class="control-label">Role : </label>
                       <div class="form-group radio">
-                    <label class="form-check-label">
-                      <input class="form-check-input" name="role" type="radio" id="role" value="admin" >
-                        ADMIN 
-                    <label>
-                
-                    <label class="form-check-label ms-3">
-                      <input class="form-check-input" name="role" type="radio" id="role" value="kasir">
-                        KASIR 
-                    </label>
+                          <label class="form-check-label me-3">
+                            <input class="form-check-input" name="role" type="checkbox" id="admin" value="admin" <?= !empty($request->getPost('role')) && $request->getPost('role') == 'admin' ? 'checked' : '' ?> >
+                            ADMIN
+                          </label>
+                    
+                          <label class="form-check-label">
+                            <input class="form-check-input" name="role" type="checkbox" id="kasir" value="kasir" <?= !empty($request->getPost('role')) && $request->getPost('role') == 'kasir' ? 'checked' : '' ?> >
+                            KASIR
+                          </label>
+                      </div>
                   </div>
-                </div>
                 </div>
                 
                 <div class="d-flex justify-content-end">

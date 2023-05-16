@@ -34,13 +34,13 @@
         Manajemen Pemesanan
       </h6>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == 'students' ? 'active' : ''; ?>" href="<?= base_url('/students/index'); ?>">
+        <a class="nav-link <?= $menu == 'pos-list' ? 'active' : ''; ?>" href="<?= base_url('/pos/index'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Daftar Pemesanan
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == "jenjang" ? 'active' : ''; ?>" href="<?= base_url('/jenjang'); ?>">
+        <a class="nav-link <?= $menu == "pos-add" ? 'active' : ''; ?>" href="<?= base_url('/pos/create'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Tambah Pemesanan
         </a>

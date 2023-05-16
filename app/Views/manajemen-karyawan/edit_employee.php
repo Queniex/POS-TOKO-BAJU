@@ -15,18 +15,18 @@
                 <input type="hidden" name="id_karyawan" value="<?= isset($list['id_karyawan']) ? $list['id_karyawan'] : '' ?>">
                 <input type="hidden" value="<?= (old('foto_karyawan')) ? old('foto_karyawan') : $list['foto_karyawan']; ?>" name="oldGambar">
                 <label for="inputAddress2" class="form-label control-label">Informasi Account : </label>
-                <input class="form-control" type="text" id="disabledInput" type="text" placeholder="Username : <?= $username; ?> || Role : <?= $role; ?>" disabled>
+                <input class="form-control" type="text" id="disabledInput" type="text" placeholder="Username : <?= $list['username']; ?> || Role : <?= $list['role']; ?>" disabled>
             </div>
-                <input type="hidden" value="<?= $username; ?>" name="username">
-                <input type="hidden" value="<?= $email; ?>" name="email">
-                <input type="hidden" value="<?= $password; ?>" name="password">
-                <input type="hidden" value="<?= $role; ?>" name="role">
+                <input type="hidden" value="<?= $list['username']; ?>" name="username">
+                <input type="hidden" value="<?= $list['email']; ?>" name="email">
+                <input type="hidden" value="<?= $list['password']; ?>" name="password">
+                <input type="hidden" value="<?= $list['role']; ?>" name="role">
             </div>
 
             <div class="row g-3 mx-3 mt-1">
             <div class="col-8">
                 <label for="foto_karyawan" class="form-label">Foto Karyawan</label>
-                <img src="/img/employee/<?= $list['foto_karyawan']; ?>" alt="" class="img-preview d-block my-3" width="200" height="200">
+                <img src="/img/employee/<?= old('foto_karyawan') ? old('foto_karyawan') : $list['foto_karyawan']; ?>" alt="" class="img-preview d-block my-3" width="200" height="200">
                 <input type="file" class="form-control" name="foto_karyawan" id="foto_karyawan">
             </div>  
             </div>
@@ -53,15 +53,15 @@
 
             <div class="row g-3 mx-3 mb-1">
             <div class="col-12">
-                <label for="gender" class="control-label">Gender : </label>
+                <label for="jenis_kelamin" class="control-label">jenis_kelamin : </label>
                 <div class="form-group radio">
                 <label class="form-check-label">
-                <input class="form-check-input" name="gender" type="radio" id="gender" value="Laki-Laki" <?= !empty(isset($list['jenis_kelamin'])) && isset($list['jenis_kelamin']) == 'Laki-Laki' ? 'checked' : '' ?>>
+                <input class="form-check-input" name="jenis_kelamin" type="radio" id="jenis_kelamin" value="Laki-Laki" <?= !empty(isset($list['jenis_kelamin'])) && isset($list['jenis_kelamin']) == 'Laki-Laki' ? 'checked' : '' ?>>
                     Laki - Laki 
                 <label>
             
                 <label class="form-check-label ms-3">
-                <input class="form-check-input" name="gender" type="radio" id="gender" value="Perempuan" <?= !empty(isset($list['jenis_kelamin'])) && isset($list['jenis_kelamin']) == 'Perempuan' ? 'checked' : '' ?>>
+                <input class="form-check-input" name="jenis_kelamin" type="radio" id="jenis_kelamin" value="Perempuan" <?= !empty(isset($list['jenis_kelamin'])) && isset($list['jenis_kelamin']) == 'Perempuan' ? 'checked' : '' ?>>
                     Perempuan 
                 </label>
             </div>
