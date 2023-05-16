@@ -11,9 +11,10 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('UserController');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
+$routes->setAutoRoute(true);
 $routes->set404Override();
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
@@ -29,27 +30,25 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Home::index', ['filter' => 'guest']);
 
 // Login dan Register
 $routes->get('/login', 'UserController::login', ['filter' => 'guest']);
 $routes->post('/login', 'UserController::authenticate', ['filter' => 'guest']);
 $routes->get('/register', 'UserController::register', ['filter' => 'guest']);
 $routes->post('/register/store', 'UserController::store', ['filter' => 'guest']);
-
+$routes->post('/logout', 'UserController::logout', ['filter' => 'auth']);
 
 // Dashboard
 $routes->get('/dashboard', 'UserController::index', ['filter' => 'auth']);
-$routes->post('/logout', 'UserController::logout', ['filter' => 'auth']);
 
 // Product
-// $routes->get('/listProduct', 'ProductController::index', ['filter' => 'auth']);
-// $routes->get('/add', 'ProductController::create', ['filter' => 'auth']);
-// $routes->get('/listProduct/delete/(:num)', 'ProductController::delete/$1', ['filter' => 'auth']);
-// $routes->post('/listProduct/(:num)', 'ProductController::delete/$1', ['filter' => 'auth']);
-$routes->get('/product/(:any)', 'ProductController::$1', ['filter' => 'auth']);
-$routes->post('/product/(:any)', 'ProductController::$1', ['filter' => 'auth']);
-$routes->post('/logout', 'UserController::logout', ['filter' => 'auth']);
+$routes->get('/product/(:any)', 'ProductController::$1', ['filter' => 'admin']);
+$routes->post('/product/(:any)', 'ProductController::$1', ['filter' => 'admin']);
+
+// Employee
+$routes->get('/employee/(:any)', 'EmployeeController::$1', ['filter' => 'admin']);
+$routes->post('/employee/(:any)', 'EmployeeController::$1', ['filter' => 'admin']);
 
 /*
  * --------------------------------------------------------------------

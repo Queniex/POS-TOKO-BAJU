@@ -2,7 +2,7 @@
   <div class="position-sticky pt-3 sidebar-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link <?= $menu == "dashboard" ? 'active' : ''; ?>" aria-current="page" href="<?= base_url('/dashboard'); ?>">
+        <a class="nav-link <?= $menu == "overview" ? 'active' : ''; ?>" aria-current="page" href="<?= base_url('/dashboard'); ?>">
           <span data-feather="home" class="align-text-bottom"></span>
           Dashboard
         </a>
@@ -15,13 +15,13 @@
         Manajemen Barang
       </h6>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == 'students' ? 'active' : ''; ?>" href="<?= base_url('/product/index'); ?>">
+        <a class="nav-link <?= $menu == 'product-list' ? 'active' : ''; ?>" href="<?= base_url('/product/index'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Daftar Barang
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == "jenjang" ? 'active' : ''; ?>" href="<?= base_url('/product/create'); ?>">
+        <a class="nav-link <?= $menu == "product-add" ? 'active' : ''; ?>" href="<?= base_url('/product/create'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Tambah Barang
         </a>
@@ -73,13 +73,13 @@
         Manajemen Karyawan
       </h6>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == "contacts" ? 'active' : ''; ?>" href="<?= base_url('/contacts'); ?>">
+        <a class="nav-link <?= $menu == "employee-list" ? 'active' : ''; ?>" href="<?= base_url('/employee/index'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Daftar Karyawan
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == "add_contact" ? 'active' : ''; ?>" href="<?= base_url('/contacts/create'); ?>">
+        <a class="nav-link <?= $menu == "employee-add" ? 'active' : ''; ?>" href="<?= base_url('/employee/create'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Tambah Karyawan
         </a>

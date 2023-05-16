@@ -11,22 +11,22 @@ class ProductController extends BaseController
     // Model 
     protected $product_model;
     protected $product_type_model;
-    protected $data;
+    protected $data, $session;
+    protected $helpers = ['form'];
 
     // Initialize Objects
     public function __construct(){
         $this->product_model = new ProductModel();
         $this->product_type_model = new ProductTypeModel();
-        $this->session= \Config\Services::session();
-        $this->data['session'] = $this->session;
+        $this->data['session'] = \Config\Services::session();
     }
 
     public function index()
     {
         $this->data = [
             "page-title" => "List Barang",
-            "menu" => "overview",
-            "list" => $this->product_model->orderBy('id_barang ASC')->select('*')->get()->getResult()
+            "menu" => "product-list",
+            "list" => $this->product_model->orderBy('id_barang ASC')->select('*')->join('jenis_barang', 'jenis_barang.id_jenis = master_barang.id_jenis')->get()->getResult()
         ];
         return view('manajemen-barang/list', $this->data);
     }
@@ -35,7 +35,7 @@ class ProductController extends BaseController
     public function create(){
         $this->data = [
             "page-title" => "Tambah Barang",
-            "menu" => "overview",
+            "menu" => "product-add",
             'validation' => \Config\Services::validation(),
             "request"=>$this->request,
             "jb" => $this->product_type_model->orderBy('id_jenis ASC')->select('*')->get()->getResult()
@@ -45,29 +45,48 @@ class ProductController extends BaseController
 
     // Save Form Page
     public function save(){
-        $this->data['request'] = $this->request;
-        $post = [
-                    'nama_barang' => $this->request->getPost('nama_barang'),
-                    'id_jenis' => $this->request->getPost('id_jenis'),
-                    'foto_barang' => $this->request->getPost('foto_barang'),
-                    'kuantitas' => $this->request->getPost('kuantitas'),
-                    'ukuran_barang' => $this->request->getPost('ukuran_barang'),
-                    'harga_per_satuan' => $this->request->getPost('harga_per_satuan')
-            ];
-        if(!empty($this->request->getPost('id_barang')))
-            $save = $this->product_model->where(['id_barang'=>$this->request->getPost('id_barang')])->set($post)->update();
-        else 
-            $save = $this->product_model->insert($post);
-        if($save){
-                if(!empty($this->request->getPost('id_barang')))
-                $this->session->setFlashdata('success_message','Data has been updated successfully') ;
-                else
-                $this->session->setFlashdata('success_message','Data has been updated successfully') ;
-                $id =!empty($this->request->getPost('id_barang')) ? $this->request->getPost('id_barang') : $save;
-                return redirect()->to('/product/index');
-            }else{
-                return view('manajemen-barang/create', $this->data);
-            }   
+
+
+            $dataInput = $this->request->getVar();    
+    
+            $post = [
+                'nama_barang' => esc($dataInput['nama_barang']),
+                'id_jenis' => esc($dataInput['id_jenis']),
+                'kuantitas' => esc($dataInput['kuantitas']),
+                'ukuran_barang' => esc($dataInput['ukuran_barang']),
+                'harga_per_satuan' => esc($dataInput['harga_per_satuan'])
+            ];    
+
+            if(!empty($this->request->getPost('id_barang'))){
+                $fileSampul = $this->request->getFile('foto_barang');
+
+                if ($fileSampul->getError() != 4) {
+                    unlink('img/product/' . $this->request->getVar("oldGambar"));
+                    $fileSampul->move('img/product');
+                    $namaSampul = $fileSampul->getName();
+                    $post['foto_barang'] = $namaSampul;
+                }
+
+                $save = $this->product_model->where(['id_barang'=>$this->request->getPost('id_barang')])->set($post)->update();
+            }
+            else{
+                $fileSampul = $this->request->getFile('foto_barang');
+                $fileSampul->move('img/product');
+                $namaSampul = $fileSampul->getName();
+                $post['foto_barang'] = $namaSampul;
+
+                $save = $this->product_model->insert($post);
+            } 
+            if($save){
+                    if(!empty($this->request->getPost('id_barang')))
+                    $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+                    else
+                    $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+                    $id =!empty($this->request->getPost('id_barang')) ? $this->request->getPost('id_barang') : $save;
+                    return redirect()->to('/product/index');
+                }else{
+                    return view('manajemen-barang/create', $this->data);
+                }   
     }
     
 

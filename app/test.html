@@ -157,87 +157,93 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div class="mt-4">
             <hr />
-            <div class="d-flex flex-row mb-2">
-              <h1 class="fw-semibold">TAMBAH BARANG</h1>
+            <div class="d-flex flex-row justify-content-center mb-2">
+              <h1 class="fw-semibold">TAMBAH PENGGUNA</h1>
             </div>
             <hr />
           </div>
-          <div class="border border-dark">
-            <div class="row g-3 m-3">
-              <div class="col">
-                <label for="inputAddress2" class="form-label">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="First name"
-                  aria-label="First name"
-                />
-              </div>
-              <div class="col">
-                <label for="inputAddress2" class="form-label">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Last name"
-                  aria-label="Last name"
-                />
-              </div>
-              <div class="col">
-                <label for="inputAddress2" class="form-label">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Last name"
-                  aria-label="Last name"
-                />
+          <div class="p-2 mx-5 my-2">
+
+            <div class="row g-3 mx-3">
+              <div class="col-8">
+                  <label for="inputAddress2" class="form-label control-label">Informasi Account : </label>
+                  <input class="form-control" type="text" id="disabledInput" type="text" placeholder="Username || ID" disabled>
               </div>
             </div>
 
-            <div class="row g-3 mx-3 mb-3">
-              <div class="col">
-                <label for="inputAddress2" class="form-label">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="First name"
-                  aria-label="First name"
-                />
-              </div>
-              <div class="col">
-                <label for="inputAddress2" class="form-label">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Last name"
-                  aria-label="Last name"
-                />
-              </div>
+            <div class="row g-3 mx-3 mt-1">
+              <div class="col-8">
+                <label for="foto_barang" class="form-label">Foto Karyawan</label>
+                <img src="../public/img/employee/default.jpg" alt="" class="img-preview d-block my-3 d-none" width="100" height="100">
+                <input type="file" class="form-control" name="foto_karyawan" id="foto_karyawan">
+            </div>  
             </div>
 
-            <div class="row g-3 mx-3 mb-3">
+            <div class="row g-3 mx-3 mb-3 mt-1">
+            <div class="col-8">
+                <label for="inputAddress2" class="form-label control-label">Nama Karyawan : </label>
+                <input type="text" autofocus class="form-control form-control-border" id="nama_karyawan" name="nama_karyawan" value="" required="required" placeholder="Nama Karyawan">
+            </div>
+            </div>
+
+            <div class="row g-3 mx-3 mb-1">
               <div class="col-6">
-                <label for="inputAddress2" class="form-label">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="First name"
-                  aria-label="First name"
-                />
+                  <label for="inputAddress2" class="form-label control-label">No Telp :</label>
+                  <input type="text" autofocus class="form-control form-control-border" id="no_tlp" name="no_tlp" value="" required="required" placeholder="Nomor Telphone">
               </div>
+              <div class="col-6">
+                <div class="input-group mt-2">
+                  <span class="input-group-text">Alamat : </span>
+                  <textarea class="form-control" aria-label="With textarea"></textarea>
+                </div>
+            </div>
             </div>
 
-            <div class="card-footer text-center my-5">
-              <button class="btn btn-dark" form="create-form" type="submit">
-                <i class="fa fa-save"></i> Save Details
-              </button>
-              <button class="btn btn-secondary" form="create-form" type="reset">
-                <i class="fa fa-times"></i> Reset
-              </button>
-            </div>
+            <div class="row g-3 mx-3 mb-1">
+              <div class="col-12">
+                <label for="gender" class="control-label">Gender : </label>
+                  <div class="form-group radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" name="gender" type="checkbox" id="gender" value="Kawin" >
+                    Laki - Laki 
+                <label>
+            
+                <label class="form-check-label ms-3">
+                  <input class="form-check-input" name="gender" type="checkbox" id="gender" value="Belum Menikah">
+                    Perempuan 
+                </label>
+              </div>
+          </div>
+            
+        </div>
+                
+                <div class="d-flex justify-content-end">
+                  <div class="mx-3 d-flex justify-content-center">
+                    <div class="text-start g-3">
+                      <button class="btn btn-success" form="create-form" type="submit">
+                          <i class="fa fa-save"></i> Submit
+                      </button>
+                      </button>
+                          <a class="btn btn-danger me-2" href="<?= base_url('product/index') ?>"><i class="fa fa-times"></i> Cancel</a>
+                      </div>
+                  </div>
+                </div>
+              </form>
+          </div>
           </div>
         </main>
       </div>
     </div>
+
+    <script>
+      // Image Preview
+      const img_preview = document.querySelector(".img-preview");
+      const input_img = document.getElementById("foto_barang");
+      input_img.addEventListener("change", function(e) {
+          img_preview.src = URL.createObjectURL(this.files[0]);
+          img_preview.classList.remove("d-none");
+      });
+      </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script

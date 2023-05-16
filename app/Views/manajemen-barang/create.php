@@ -11,9 +11,8 @@
             <hr />
             </div>
             <div class="border border-dark">
-            <form action="<?= base_url('product/save') ?>" method="POST" id="create-form" enctype="multipart/form-data">
+            <form action="<?= base_url('product/save') ?>" enctype="multipart&#x2F;form-data" method="POST" accept-charset="utf-8" id="create-form">
                 <?= csrf_field(); ?>
-                <input type="hidden" name="id_barang">
                 <div class="row g-3 m-3">
                 <div class="col">
                     <label for="inputAddress2" class="form-label control-label">Nama Barang</label>
@@ -54,32 +53,33 @@
                 </div>
                 </div>
 
-                <!-- <div class="row g-3 mx-3 mb-3">
-                <div class="col-6">
-                    <div class="custom-file">
-                        <input class="costum-file-input type="file" id="foto_gambar" name="foto_gambar">
-                        <label for="foto_gambar" class="custom-file-label control-label">Foto Barang</label>
-                        <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                        </div>
-                    </div>            
-                </div>
-                </div> -->
-
-                <div class="row g-3 mx-3 mb-3">
-                <div class="col-6">
-                    <label for="inputAddress2" class="form-label control-label">Foto Barang</label>
-                    <input type="text" autofocus class="form-control form-control-border" id="foto_barang" name="foto_barang" value="<?= !empty($request->getPost('foto_barang')) ? $request->getPost('foto_barang') : '' ?>" required="required" placeholder="Harga Barang"> 
-                </div>
+                <div class="row m-3">
+                    <div class="col-6">
+                        <label for="foto_barang" class="form-label">Foto Barang</label>
+                        <img src="<?= old('foto_barang'); ?>" alt="" class="img-preview d-block my-3 d-none" width="200" height="200">
+                        <input type="file" class="form-control" name="foto_barang" id="foto_barang">
+                    </div>
                 </div>
                 
                 <div class="text-center my-5">
                 <button class="btn btn-dark" form="create-form" type="submit">
-                    <i class="fa fa-save"></i> Save Details
+                    <i class="fa fa-save"></i> Tambah
                 </button>
-                <button class="btn btn-secondary" form="create-form" type="reset">
-                    <i class="fa fa-times"></i> Reset
                 </button>
+                    <a class="btn btn-danger" href="<?= base_url('product/index') ?>"><i class="fa fa-times"></i> Cancel</a>
                 </div>
+                </div>
+                </form>
         </div>
+
+        <script>
+        // Image Preview
+        const img_preview = document.querySelector(".img-preview");
+        const input_img = document.getElementById("foto_barang");
+        input_img.addEventListener("change", function(e) {
+            img_preview.src = URL.createObjectURL(this.files[0]);
+            img_preview.classList.remove("d-none");
+        });
+        </script>
 
     <?= $this->endSection(); ?>
