@@ -12,6 +12,7 @@
           <div class="d-flex justify-content-center">
             <div class="p-2 mx-2 my-2">
               <form action="<?= base_url('employee/next') ?>" enctype="multipart&#x2F;form-data" method="POST" accept-charset="utf-8" id="create-form">
+              <?php $validation->listErrors(); ?>
                 <input type="hidden" name="id" value="<?= isset($data['id']) ? $data['id'] : '' ?>">
                 <div class="row g-3 m-3">
                 <div class="col-12">
@@ -31,6 +32,7 @@
                   <div class="col-12">
                       <label for="inputAddress2" class="form-label control-label">Email :</label>
                       <input type="email" autofocus class="form-control form-control-border" id="email" name="email" value="<?= isset($data['email']) ? $data['email'] : '' ?>" required="required" placeholder="Email" disabled>
+
                   </div>
                   <div class="col-12">
                     <label for="role" class="control-label">Role : </label>

@@ -17,37 +17,52 @@
             <div class="row g-3 m-3">
             <div class="col">
                 <label for="inputAddress2" class="form-label control-label">Nama Barang</label>
-                <input type="text" autofocus class="form-control form-control-border" id="nama_barang" name="nama_barang" value="<?= isset($data['nama_barang']) ? $data['nama_barang'] : '' ?>" required="required" placeholder="Nama Barang">
+                <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('nama_barang')) ? 'is-invalid' : ''; ?>" id="nama_barang" name="nama_barang" value="<?= isset($data['nama_barang']) ? $data['nama_barang'] : '' ?>" required="required" placeholder="Nama Barang">
+                <div class="invalid-feedback">
+                    <?= validation_show_error('nama_barang'); ?>
+                </div>
             </div>
             <div class="col">
                 <label for="inputAddress2" class="form-label control-label">Jenis Barang</label>
-                <select name="id_jenis" id="id_jenis" class="form-select form-select-border" required>
+                <select name="id_jenis" id="id_jenis" class="form-select form-select-border <?= (validation_show_error('jenis_barang')) ? 'is-invalid' : ''; ?>" required>
                     <option value="">Pilih Jenis Barang</option>
                         <?php foreach ($jb as $row => $value) { ?>
                             <option <?= !empty($request->getPost('jb')) && $request->getPost('jb') == $value->id_jenis ? 'selected' : '' ?> value="<?= $value->id_jenis ?>"><?= $value->jenis_barang; ?></option>
                         <?php } ?>   
                 </select>
+                <div class="invalid-feedback">
+                    <?= validation_show_error('jenis_barang'); ?>
+                </div>
             </div>
             <div class="col">
                 <label for="inputAddress2" class="form-label control-label">Ukuran Barang</label>
-                <select name="ukuran_barang" id="ukuran_barang" class="form-select form-select-border" required>
+                <select name="ukuran_barang" id="ukuran_barang" class="form-select form-select-border <?= (validation_show_error('ukuran_barang')) ? 'is-invalid' : ''; ?>" required>
                     <option disabled value="">Pilih Ukuran Barang</option>
                     <option value="S">S</option>
                     <option value="M">M</option>
                     <option value="XL">XL</option>
                     <option value="XXL">XXL</option>
                 </select>
+                <div class="invalid-feedback">
+                    <?= validation_show_error('ukuran_barang'); ?>
+                </div>
             </div>
             </div>
 
             <div class="row g-3 mx-3 mb-3">
             <div class="col">
                 <label for="inputAddress2" class="form-label control-label">Jumlah Barang</label>
-                <input type="text" autofocus class="form-control form-control-border" id="kuantitas" name="kuantitas" value="<?= isset($data['kuantitas']) ? $data['kuantitas'] : '' ?>" required="required" placeholder="Jumlah Barang">
+                <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('kuantitas')) ? 'is-invalid' : ''; ?>" id="kuantitas" name="kuantitas" value="<?= isset($data['kuantitas']) ? $data['kuantitas'] : '' ?>" required="required" placeholder="Jumlah Barang">
+                <div class="invalid-feedback">
+                    <?= validation_show_error('kuantitas'); ?>
+                </div>
             </div>
             <div class="col">
                 <label for="inputAddress2" class="form-label control-label">Harga Barang</label>
-                <input type="text" autofocus class="form-control form-control-border" id="foto_barang" name="harga_per_satuan" value="<?= isset($data['harga_per_satuan']) ? $data['harga_per_satuan'] : '' ?>" required="required" placeholder="Harga Barang">
+                <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('harga')) ? 'is-invalid' : ''; ?>" id="foto_barang" name="harga_per_satuan" value="<?= isset($data['harga_per_satuan']) ? $data['harga_per_satuan'] : '' ?>" required="required" placeholder="Harga Barang">
+                <div class="invalid-feedback">
+                    <?= validation_show_error('harga'); ?>
+                </div>
             </div>
             </div>
 
@@ -55,7 +70,10 @@
                 <div class="col-6">
                     <label for="foto_barang" class="form-label">Foto Karyawan</label>
                     <img src="/img/product/<?= $data['foto_barang']; ?>" alt="" class="img-preview d-block my-3" width="200" height="200">
-                    <input type="file" class="form-control" name="foto_barang" id="foto_barang">           
+                    <input type="file" class="form-control <?= (validation_show_error('foto_barang')) ? 'is-invalid' : ''; ?>" name="foto_barang" id="foto_barang">       
+                    <div class="invalid-feedback">
+                        <?= validation_show_error('foto_barang'); ?>
+                    </div>    
                 </div>
             </div>
             

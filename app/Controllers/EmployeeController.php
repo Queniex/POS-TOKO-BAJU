@@ -15,8 +15,8 @@ class EmployeeController extends BaseController
 
     // Initialize Objects
     public function __construct(){
-        $this->session= \Config\Services::session();
-        $this->data['session'] = $this->session;
+        // $this->session= \Config\Services::session();
+        // $this->data['session'] = $this->session;
         $this->employee_model = new EmployeeModel();
         $this->user_model = new UserModel();
     }
@@ -46,7 +46,7 @@ class EmployeeController extends BaseController
 
     public function next($id=''){
         // var_dump($this->request->getPost('username'));
-
+        session();
         $id = $this->request->getPost('id');
         
         session();  
@@ -73,6 +73,7 @@ class EmployeeController extends BaseController
 
     // Save Form Page
     public function save(){
+
         $dataInput = $this->request->getVar();    
 
         $dataAkun = [
@@ -105,6 +106,77 @@ class EmployeeController extends BaseController
             $save = $this->employee_model->where(['id_karyawan'=>$this->request->getPost('id_karyawan')])->set($post)->update();
         }
         else{
+
+            if(!$this->validate([
+                "username" => [
+                    "rules" => "required|max_length[20]|is_unique[master_pengguna.username]",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu",
+                        "max_length" => "{field} maksimal karakter 20",
+                        "is_unique" => "{field} sudah terdaftar",
+                    ]
+                ],
+                [
+                    "nama_karyawan" => [
+                        "rules" => "required|is_unique[master_karyawan.nama_karyawan]",
+                        "errors" => [
+                            "required" => "Harap isi nama karyawan terlebih dahulu",
+                            "is_unique" => "Nama karyawan sudah terdaftar",
+                        ]
+                    ]
+                ],
+                "password" => [
+                    "rules" => "required",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu"
+                    ]
+                ],
+                "jenis_kelamin" => [
+                    "rules" => "required",
+                    "errors" => [
+                        "required" => "Harap isi jenis kelamin karyawan terlebih dahulu"
+                    ]
+                ],
+                "alamat" => [
+                    "rules" => "required",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu"
+                    ]
+                ],
+                "no_tlp" => [
+                    "rules" => "required|max_length[20]",
+                    "errors" => [
+                        "required" => "Harap isi nomor telepon terlebih dahulu",
+                        "max_length" => "Digit nomor telepon maks. 20",
+                    ]
+                ],
+                "foto_karyawan" => [
+                    "rules" => "uploaded[foto_karyawan]|max_size[foto_karyawan,2048]|mime_in[foto_karyawan,image/png,image/jpg,image/jpeg]",
+                    "errors" => [
+                        "uploaded" => "Harap cantumkan foto karyawan terlebih dahulu",
+                        "max_size" => "Ukuran maks. foto karyawan 2 MB",
+                        "mime_in" => "Format foto karyawan hanya dalam bentuk png, jpg, dan jpeg",
+                    ]
+                ],
+                "role" => [
+                    "rules" => "required",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu"
+                    ]
+                ],
+                "email" => [
+                    "rules" => "required|valid_email|max_length[50]",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu",
+                        "valid_email" => "format {field} salah",
+                        "max_length" => "{field} maksimal karakter 50",
+                    ]
+                ],
+            ])){
+                $validation = \Config\Services::validation();
+                return redirect()->back()->withInput(); 
+            }
+
             $this->user_model->insert($dataAkun);
             $idPengguna = $this->user_model->select('id')->where('username', $dataAkun['username'])->first()['id'];
 
@@ -124,10 +196,13 @@ class EmployeeController extends BaseController
             $save = $this->employee_model->insert($post);
         } 
         if($save){
-            if(!empty($this->request->getPost('id_karyawan')))
-            $this->session->setFlashdata('success_message','Data has been updated successfully') ;
-            else
-            $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+            // if(!empty($this->request->getPost('id_karyawan'))) {
+            //     session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
+            //     session()->setFlashdata('warna', 'success');
+            // } else {
+            //     session()->setFlashdata('pesan', 'Data berhasil diupdate');
+            //     session()->setFlashdata('warna', 'primary');
+            // }
             $id =!empty($this->request->getPost('id_karyawan')) ? $this->request->getPost('id_karyawan') : $save;
             return redirect()->to('/employee/index');
         }else{

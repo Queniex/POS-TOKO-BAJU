@@ -11,19 +11,27 @@
           </div>
           <div class="d-flex justify-content-center">
             <div class="p-2 mx-2 my-2">
+            <?php $validation->listErrors(); ?>
               <form action="<?= base_url('employee/next') ?>" enctype="multipart&#x2F;form-data" method="POST" accept-charset="utf-8" id="create-form">
+              <?php $validation->listErrors(); ?>
               
                 <div class="row g-3 m-3">
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label control-label">Username :</label>
-                    <input type="text" autofocus class="form-control form-control-border" id="username" name="username" value="" placeholder="Username" required>
+                    <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('username')) ? 'is-invalid' : ''; ?>" id="username" name="username" value="" placeholder="Username">
+                    <div class="invalid-feedback">
+                      <?= validation_show_error('username'); ?>
+                    </div>
                 </div>    
                 </div>
   
                 <div class="row g-3 mx-3 mb-3">
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label control-label">Password :</label>
-                    <input type="password" autofocus class="form-control form-control-border" id="passInput" name="password" value="" required="required" placeholder="Password">
+                    <input type="password" autofocus class="form-control form-control-border <?= (validation_show_error('password')) ? 'is-invalid' : ''; ?>" id="passInput" name="password" value="" placeholder="Password">
+                    <div class="invalid-feedback">
+                      <?= validation_show_error('password'); ?>
+                    </div>
                     <div class="form-check form-switch">
                       <input class="form-check-input" onclick="checkFunction()" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                       <label class="form-check-label" for="flexSwitchCheckDefault">Show Password</label>
@@ -34,7 +42,10 @@
                 <div class="row g-3 mx-3 mb-3">
                   <div class="col-12">
                       <label for="inputAddress2" class="form-label control-label">Email :</label>
-                      <input type="email" autofocus class="form-control form-control-border" id="email" name="email" value="" required="required" placeholder="Email">
+                      <input type="email" autofocus class="form-control form-control-border <?= (validation_show_error('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" value="" placeholder="Email">
+                      <div class="invalid-feedback">
+                        <?= validation_show_error('email'); ?>
+                    </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <label for="status" class="control-label">Role : </label>

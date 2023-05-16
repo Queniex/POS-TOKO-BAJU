@@ -13,6 +13,7 @@
                 <div class="row g-3 mx-3">
                 <div class="col-8">
             <form action="<?= base_url('employee/save') ?>" enctype="multipart&#x2F;form-data" method="POST" accept-charset="utf-8" id="create-form">
+            <?php $validation->listErrors(); ?>
                     <label for="inputAddress2" class="form-label control-label">Informasi Account : </label>
                     <input class="form-control" type="text" id="disabledInput" type="text" placeholder="Username : <?= $username; ?> || Role : <?= $role; ?>" disabled>
                 </div>
@@ -26,26 +27,38 @@
                 <div class="col-8">
                     <label for="foto_barang" class="form-label">Foto Karyawan</label>
                     <img alt="" class="img-preview d-block my-3 d-none" width="200" height="200">
-                    <input type="file" class="form-control" name="foto_karyawan" id="foto_karyawan">
+                    <input type="file" class="form-control <?= (validation_show_error('foto_karyawan')) ? 'is-invalid' : ''; ?>" name="foto_karyawan" id="foto_karyawan">
+                    <div class="invalid-feedback">
+                      <?= validation_show_error('foto_karyawan'); ?>
+                    </div>
                 </div>  
                 </div>
 
                 <div class="row g-3 mx-3 mb-3 mt-1">
                 <div class="col-8">
                     <label for="inputAddress2" class="form-label control-label">Nama Karyawan : </label>
-                    <input type="text" autofocus class="form-control form-control-border" id="nama_karyawan" name="nama_karyawan" value="" required="required" placeholder="Nama Karyawan">
+                    <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('nama_karyawan')) ? 'is-invalid' : ''; ?>" id="nama_karyawan" name="nama_karyawan" value="" placeholder="Nama Karyawan">
+                    <div class="invalid-feedback">
+                      <?= validation_show_error('nama_karyawan'); ?>
+                    </div>
                 </div>
                 </div>
 
                 <div class="row g-3 mx-3 mb-1">
                 <div class="col-6">
                     <label for="inputAddress2" class="form-label control-label">No Telp :</label>
-                    <input type="text" autofocus class="form-control form-control-border" id="no_tlp" name="no_tlp" value="" required="required" placeholder="Nomor Telphone">
+                    <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('no_tlp')) ? 'is-invalid' : ''; ?>" id="no_tlp" name="no_tlp" value="" placeholder="Nomor Telphone">
+                    <div class="invalid-feedback">
+                      <?= validation_show_error('no_tlp'); ?>
+                    </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group mt-2">
                     <span class="input-group-text">Alamat : </span>
-                    <textarea class="form-control" name="alamat" aria-label="With textarea"></textarea>
+                    <textarea class="form-control <?= (validation_show_error('alamat')) ? 'is-invalid' : ''; ?>" name="alamat" aria-label="With textarea"></textarea>
+                    <div class="invalid-feedback">
+                      <?= validation_show_error('alamat'); ?>
+                    </div>
                     </div>
                 </div>
                 </div>

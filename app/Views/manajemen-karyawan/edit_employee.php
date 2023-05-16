@@ -12,6 +12,7 @@
             <div class="row g-3 mx-3">
             <div class="col-8">
         <form action="<?= base_url('employee/save') ?>" enctype="multipart&#x2F;form-data" method="POST" accept-charset="utf-8" id="create-form">
+        <?php $validation->listErrors(); ?>
                 <input type="hidden" name="id_karyawan" value="<?= isset($list['id_karyawan']) ? $list['id_karyawan'] : '' ?>">
                 <input type="hidden" value="<?= (old('foto_karyawan')) ? old('foto_karyawan') : $list['foto_karyawan']; ?>" name="oldGambar">
                 <label for="inputAddress2" class="form-label control-label">Informasi Account : </label>
@@ -27,26 +28,38 @@
             <div class="col-8">
                 <label for="foto_karyawan" class="form-label">Foto Karyawan</label>
                 <img src="/img/employee/<?= old('foto_karyawan') ? old('foto_karyawan') : $list['foto_karyawan']; ?>" alt="" class="img-preview d-block my-3" width="200" height="200">
-                <input type="file" class="form-control" name="foto_karyawan" id="foto_karyawan">
+                <input type="file" class="form-control <?= (validation_show_error('foto_karyawan')) ? 'is-invalid' : ''; ?>" name="foto_karyawan" id="foto_karyawan">
+                <div class="invalid-feedback">
+                    <?= validation_show_error('foto_karyawan'); ?>
+                </div>
             </div>  
             </div>
 
             <div class="row g-3 mx-3 mb-3 mt-1">
             <div class="col-8">
                 <label for="inputAddress2" class="form-label control-label">Nama Karyawan : </label>
-                <input type="text" autofocus class="form-control form-control-border" id="nama_karyawan" name="nama_karyawan" value="<?= isset($list['nama_karyawan']) ? $list['nama_karyawan'] : '' ?>" required="required" placeholder="Nama Karyawan">
+                <input type="text" autofocus class="form-control form-control-border <?= (validation_show_error('nama_karyawan')) ? 'is-invalid' : ''; ?>" id="nama_karyawan" name="nama_karyawan" value="<?= isset($list['nama_karyawan']) ? $list['nama_karyawan'] : '' ?>" required="required" placeholder="Nama Karyawan">
+                <div class="invalid-feedback">
+                    <?= validation_show_error('nama_karyawan'); ?>
+                </div>
             </div>
             </div>
 
             <div class="row g-3 mx-3 mb-1">
             <div class="col-6">
                 <label for="inputAddress2" class="form-label control-label">No Telp :</label>
-                <input type="text" autofocus class="form-control form-control-border" id="no_tlp" name="no_tlp" value="<?= isset($list['no_tlp']) ? $list['no_tlp'] : '' ?>" required="required" placeholder="Nomor Telphone">
+                <input type="text" autofocus class="form-control form-control-border" id="no_tlp" name="no_tlp" value="<?= isset($list['no_tlp']) ? $list['no_tlp'] : '' ?> <?= (validation_show_error('no_tlp')) ? 'is-invalid' : ''; ?>" required="required" placeholder="Nomor Telphone">
+                <div class="invalid-feedback">
+                    <?= validation_show_error('no_tlp'); ?>
+                </div>
             </div>
             <div class="col-6">
                 <div class="input-group mt-2">
                 <span class="input-group-text">Alamat : </span>
-                <textarea class="form-control" name="alamat" aria-label="With textarea"><?= !empty(isset($list['alamat'])) ? $list['alamat'] : '' ?></textarea>
+                <textarea class="form-control <?= (validation_show_error('alamat')) ? 'is-invalid' : ''; ?>" name="alamat" aria-label="With textarea"><?= !empty(isset($list['alamat'])) ? $list['alamat'] : '' ?></textarea>
+                <div class="invalid-feedback">
+                    <?= validation_show_error('alamat'); ?>
+                </div>
                 </div>
             </div>
             </div>
