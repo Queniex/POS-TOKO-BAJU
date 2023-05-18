@@ -22,33 +22,34 @@
                     <col width="10%">
                 </colgroup>
                 <thead>
-                    <th class="p-1 text-center">#</th>
+                    <th class="p-1 text-center bg-info">ID</th>
                     <th class="p-1 text-center">Tanggal/Waktu</th>
-                    <th class="p-1 text-center">Kode Barang</th>
+                    <th class="p-1 text-center">Nama Kasir</th>
                     <th class="p-1 text-center">Nama Kostumer</th>
                     <th class="p-1 text-center">Jumlah Barang</th>
                     <th class="p-1 text-center">Total Belanja</th>
                     <th class="p-1 text-center">Aksi</th>
                 </thead>
                 <tbody>
-                   
+                <?php foreach($transactions as $row): ?>
                         <tr>
-                            <th class="p-1 text-center align-middle">id</th>
-                            <td class="px-2 py-1 align-middle">Tanggal</td>
-                            <td class="px-2 py-1 align-middle">code</td>
-                            <td class="px-2 py-1 align-middle">Nama Costumer</td>
-                            <td class="px-2 py-1 align-middle text-end">Jumlah Item</td>
-                            <td class="px-2 py-1 align-middle text-end">Total Belanja</td>
+                            <th class="p-1 text-center align-middle bg-primary"><?= $row->id_transaksi; ?></th>
+                            <td class="px-2 py-1 align-middle"><?= $row->tgl_pembelian; ?></td>
+                            <td class="px-2 py-1 align-middle"><?= $row->nama_karyawan; ?></td>
+                            <td class="px-2 py-1 align-middle"><?= $row->nama_pembeli; ?></td>
+                            <td class="px-2 py-1 align-middle text-end"><?= $row->total_barang; ?></td>
+                            <td class="px-2 py-1 align-middle text-end"><?= $row->harga_total; ?></td>
                             <td class="px-2 py-1 align-middle text-center">
-                                <a href="<?= base_url('pos/view') ?>" class="mx-2 text-decoration-none text-dark"><i class="fa fa-eye"></i></a>
-                                <a href="<?= base_url('Main/transaction_delete/')?>" class="mx-2 text-decoration-none text-danger" onclick="if(confirm('Are you sure to delete'))"><i class="fa fa-trash"></i></a>
+                                <a href="<?= base_url('pos/view/'.$row->id_transaksi) ?>" class="mx-2 text-decoration-none text-dark"><i class="fa fa-eye"></i></a>
+                                <a href="<?= base_url('pos/delete/'.$row->id_transaksi)?>" class="mx-2 text-decoration-none text-danger" onclick="if(confirm('Apakah Kamu Ingin Menghapus Produk Ini?') === false) event.preventDefault()"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
-                    
+                <?php endforeach; ?>
+                    <?php if(count($transactions) <= 0): ?>
                         <tr>
                             <td class="p-1 text-center" colspan="7">Tidak Ada Data Ditemukan</td>
                         </tr>
-                    
+                    <?php endif ?>
                 </tbody>
             </table>
             <div>

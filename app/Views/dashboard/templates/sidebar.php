@@ -34,15 +34,15 @@
         POS Manajemen
       </h6>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == "pos-add" ? 'active' : ''; ?>" href="<?= base_url('/pos/index'); ?>">
-          <span data-feather="file-plus" class="align-text-bottom"></span>
-          Tambah Pemesanan
+        <a class="nav-link <?= $menu == 'pos-list' ? 'active' : ''; ?>" href="<?= base_url('/pos/index'); ?>">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Daftar Transaksi
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == 'pos-list' ? 'active' : ''; ?>" href="<?= base_url('/pos/list'); ?>">
-          <span data-feather="file-text" class="align-text-bottom"></span>
-          Daftar Transaksi
+        <a class="nav-link <?= $menu == "pos-add" ? 'active' : ''; ?>" href="<?= base_url('/pos/add'); ?>">
+          <span data-feather="file-plus" class="align-text-bottom"></span>
+          Tambah Pemesanan
         </a>
       </li>
     </ul>

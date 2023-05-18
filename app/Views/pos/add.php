@@ -18,7 +18,11 @@
     <div class="card-body">
         <div class="container-fluid">
             <form action="<?= base_url("pos/view") ?>" id="transaction-form" method="POST" onkeydown="return event.key != 'Enter';">
+            
+                <input type="hidden" name="nama_karyawan" value="<?= $user['nama_karyawan']; ?>">
                 <input type="hidden" name="total_harga" value="0">
+                <input type="hidden" name="total_bayar" value="">
+                <input type="hidden" name="total_kembali" value="">
                 <fieldset class="border pb-3 rounded-0 mb-3">
                     <legend class="px-3 mx-2">Add Product</legend>
                     <div class="container-fluid">
@@ -107,6 +111,7 @@
     </div>
     <div class="card-footer text-center">
         <button class="btn btn-dark rounded-0" id="save_transaction" type="submit"><i class="fa fa-save"></i> Simpan Transaksi</button>
+
         </form>
     </div>
 </div>
@@ -114,7 +119,6 @@
 <noscript id="item-clone">
     <tr>
         <td class="py-1 px-2 align-middle text-center">
-            <input type="hidden" name="nama_karyawan" value="<?= $user['nama_karyawan']; ?>">
             <input type="hidden" name="id_barang[]">
             <input type="hidden" name="harga_per_satuan[]" value="0">
             <button class="btn btn-outline-danger btn-sm rounded-0 rem_item" type="button"><i class="fa fa-times"></i></button>
@@ -210,6 +214,8 @@
             var change = parseFloat(tendered) - parseFloat(amount);
             console.log(change)
             $('#change').text(parseFloat(change).toLocaleString('en-US', {style:'decimal', maximumFractionDigits:2, minimumFractionDigits:2}))
+            $('[name="total_bayar"]').val(tendered)
+            $('[name="total_kembali"]').val(change)
         })
 
         $('#save_transaction').click(function(){
