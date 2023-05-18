@@ -22,7 +22,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link <?= $menu == "product-add" ? 'active' : ''; ?>" href="<?= base_url('/product/create'); ?>">
-          <span data-feather="file-text" class="align-text-bottom"></span>
+          <span data-feather="file-plus" class="align-text-bottom"></span>
           Tambah Barang
         </a>
       </li>
@@ -31,41 +31,21 @@
     <!-- Manajemen Pemesanan -->
     <ul class="nav flex-column">
       <h6 class="sidebar-heading text-muted d-flex flex-col justify-content-between align-items-center px-3 mt-4 fs-6 fw-bold">
-        Manajemen Pemesanan
+        POS Manajemen
       </h6>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == 'pos-list' ? 'active' : ''; ?>" href="<?= base_url('/pos/index'); ?>">
-          <span data-feather="file-text" class="align-text-bottom"></span>
-          Daftar Pemesanan
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?= $menu == "pos-add" ? 'active' : ''; ?>" href="<?= base_url('/pos/create'); ?>">
-          <span data-feather="file-text" class="align-text-bottom"></span>
+        <a class="nav-link <?= $menu == "pos-add" ? 'active' : ''; ?>" href="<?= base_url('/pos/index'); ?>">
+          <span data-feather="file-plus" class="align-text-bottom"></span>
           Tambah Pemesanan
         </a>
       </li>
-    </ul>
-
-    <!-- Manajemen Transaksi -->
-    <ul class="nav flex-column">
-      <h6 class="sidebar-heading text-muted d-flex flex-col justify-content-between align-items-center px-3 mt-4 fs-6 fw-bold">
-        Manajemen Transaksi
-      </h6>
       <li class="nav-item">
-        <a class="nav-link <?= $menu == 'students' ? 'active' : ''; ?>" href="<?= base_url('/students/index'); ?>">
+        <a class="nav-link <?= $menu == 'pos-list' ? 'active' : ''; ?>" href="<?= base_url('/pos/list'); ?>">
           <span data-feather="file-text" class="align-text-bottom"></span>
           Daftar Transaksi
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link <?= $menu == "jenjang" ? 'active' : ''; ?>" href="<?= base_url('/jenjang'); ?>">
-          <span data-feather="file-text" class="align-text-bottom"></span>
-          Tambah Transaksi
-        </a>
-      </li>
     </ul>
-
 
     <!-- Manajemen Karyawan -->
     <ul class="nav flex-column">
@@ -80,7 +60,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link <?= $menu == "employee-add" ? 'active' : ''; ?>" href="<?= base_url('/employee/create'); ?>">
-          <span data-feather="file-text" class="align-text-bottom"></span>
+          <span data-feather="file-plus" class="align-text-bottom"></span>
           Tambah Karyawan
         </a>
       </li>

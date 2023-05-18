@@ -85,7 +85,7 @@ class UserController extends BaseController
             "password" => [
                 "rules" => "required",
                 "errors" => [
-                    "required" => "Harap isi {field} terlebih dahulu"
+                    "required" => "Harap isi password terlebih dahulu"
                 ]
             ],
         ];
@@ -119,7 +119,7 @@ class UserController extends BaseController
             "password" => [
                 "rules" => "required",
                 "errors" => [
-                    "required" => "Harap isi {field} terlebih dahulu"
+                    "required" => "Harap isi password terlebih dahulu"
                 ]
             ],
         ];

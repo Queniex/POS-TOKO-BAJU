@@ -1,11 +1,11 @@
 <?= $this->extend('dashboard/templates/main'); ?>
 
 <?= $this->section('content') ?>
-<div class="card rounded-0">
+<div class="card rounded-0 mt-3">
     <div class="card-header">
     <div class="d-flex w-100 justify-content-between">
             <div class="col-auto">
-                <div class="card-title h4 mb-0 fw-bolder">List of Transactions</div>
+                <div class="card-title h4 mb-0 fw-bolder">List Transaksi</div>
             </div>
         </div>
     </div>
@@ -23,12 +23,12 @@
                 </colgroup>
                 <thead>
                     <th class="p-1 text-center">#</th>
-                    <th class="p-1 text-center">Date/Time</th>
-                    <th class="p-1 text-center">Code</th>
-                    <th class="p-1 text-center">Customer</th>
-                    <th class="p-1 text-center">Items</th>
-                    <th class="p-1 text-center">Total Amount</th>
-                    <th class="p-1 text-center">Action</th>
+                    <th class="p-1 text-center">Tanggal/Waktu</th>
+                    <th class="p-1 text-center">Kode Barang</th>
+                    <th class="p-1 text-center">Nama Kostumer</th>
+                    <th class="p-1 text-center">Jumlah Barang</th>
+                    <th class="p-1 text-center">Total Belanja</th>
+                    <th class="p-1 text-center">Aksi</th>
                 </thead>
                 <tbody>
                    
@@ -40,13 +40,13 @@
                             <td class="px-2 py-1 align-middle text-end">Jumlah Item</td>
                             <td class="px-2 py-1 align-middle text-end">Total Belanja</td>
                             <td class="px-2 py-1 align-middle text-center">
-                                <a href="<?= base_url('Main/transaction_view/') ?>" class="mx-2 text-decoration-none text-dark"><i class="fa fa-eye"></i></a>
+                                <a href="<?= base_url('pos/view') ?>" class="mx-2 text-decoration-none text-dark"><i class="fa fa-eye"></i></a>
                                 <a href="<?= base_url('Main/transaction_delete/')?>" class="mx-2 text-decoration-none text-danger" onclick="if(confirm('Are you sure to delete'))"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     
                         <tr>
-                            <td class="p-1 text-center" colspan="7">No result found</td>
+                            <td class="p-1 text-center" colspan="7">Tidak Ada Data Ditemukan</td>
                         </tr>
                     
                 </tbody>

@@ -45,10 +45,10 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
           </div>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control <?= isset($error['username']) ? 'is-invalid' : ''; ?>" name="password" id="password" placeholder="Password">
+          <input type="password" class="form-control <?= isset($error['password']) ? 'is-invalid' : ''; ?>" name="password" id="password" placeholder="Password">
           <label for="password">Password</label>
           <div class="invalid-feedback">
-            <?= isset($error['username']) ? $error['username'] : ''; ?>
+            <?= isset($error['password']) ? $error['password'] : ''; ?>
           </div>
         </div>
 
