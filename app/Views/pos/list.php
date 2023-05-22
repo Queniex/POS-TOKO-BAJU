@@ -11,6 +11,11 @@
     </div>
     <div class="card-body">
         <div class="container-fluid">
+            <?php if(session()->getFlashdata('pesan')) : ?>
+                <div class="alert alert-<?= session()->getFlashdata('warna'); ?>" role="alert">
+                    <?= session()->getFlashdata('pesan'); ?>
+                </div>
+            <?php endif; ?>
             <table class="table table-stripped table-bordered">
                 <colgroup>
                     <col width="5%">

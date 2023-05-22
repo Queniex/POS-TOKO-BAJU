@@ -220,13 +220,13 @@ class EmployeeController extends BaseController
             $save = $this->employee_model->insert($post);
         } 
         if($save){
-            // if(!empty($this->request->getPost('id_karyawan'))) {
-            //     session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
-            //     session()->setFlashdata('warna', 'success');
-            // } else {
-            //     session()->setFlashdata('pesan', 'Data berhasil diupdate');
-            //     session()->setFlashdata('warna', 'primary');
-            // }
+            if(!empty($this->request->getPost('id_karyawan'))) {
+                session()->setFlashdata('pesan', 'Data berhasil diupdate');
+                session()->setFlashdata('warna', 'primary');
+            } else {
+                session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
+                session()->setFlashdata('warna', 'success');
+            }
             $id =!empty($this->request->getPost('id_karyawan')) ? $this->request->getPost('id_karyawan') : $save;
             return redirect()->to('/employee/index');
         }else{
@@ -238,8 +238,8 @@ class EmployeeController extends BaseController
     // Edit Form Page
     public function edit($id=''){
         if(empty($id)){
-            // session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
-            // session()->setFlashdata('warna', 'danger');
+            session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to('/employee/index');
         }
         $idPengguna = $this->employee_model->select('id_pengguna')->where('id_karyawan', $id)->first()['id_pengguna'];
@@ -258,6 +258,8 @@ class EmployeeController extends BaseController
     // Delete Data
     public function delete($id=''){
         if(empty($id)){
+            session()->setFlashdata('pesan', 'ID Data Tidak Ditemukan');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to(base_url('/login'))->with('daftar_berhasil', 'Pendaftaran Akun Berhasil');
         }
 
@@ -268,6 +270,8 @@ class EmployeeController extends BaseController
         $deletes = $this->user_model->delete($idPengguna);
 
         if($delete && $deletes){
+            session()->setFlashdata('pesan', 'Data berhasil dihapus');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to('employee/index');
         }
     }

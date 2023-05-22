@@ -61,7 +61,7 @@ class ProductController extends BaseController
         session();
 
         $dataInput = $this->request->getVar();    
-    
+        // dd($dataInput);
         $post = [
             'nama_barang' => esc($dataInput['nama_barang']),
             'id_jenis' => esc($dataInput['id_jenis']),
@@ -92,12 +92,12 @@ class ProductController extends BaseController
                             "is_unique" => "Nama produk sudah terdaftar",
                         ]
                     ],
-                    "jenis_barang" => [
-                        "rules" => "required",
-                        "errors" => [
-                            "required" => "Harap isi jenis barang terlebih dahulu"
-                        ]
-                    ],
+                    // "jenis_barang" => [
+                    //     "rules" => "required",
+                    //     "errors" => [
+                    //         "required" => "Harap isi jenis barang terlebih dahulu"
+                    //     ]
+                    // ],
                     "ukuran_barang" => [
                         "rules" => "required",
                         "errors" => [
@@ -111,11 +111,10 @@ class ProductController extends BaseController
                             "max_length" => "Digit untuk jumlah satuan maks. 5",
                         ]
                     ],
-                    "harga" => [
-                        "rules" => "required|max_length[11]",
+                    "harga_per_satuan" => [
+                        "rules" => "required",
                         "errors" => [
-                            "required" => "Harap isi harga satuan terlebih dahulu",
-                            "max_length" => "Digit untuk harga satuan maks. 11",
+                            "required" => "Harap isi harga satuan terlebih dahulu"
                         ]
                     ],
                     "foto_barang" => [
@@ -125,7 +124,7 @@ class ProductController extends BaseController
                             "max_size" => "Ukuran maks. foto barang 2 MB",
                             "mime_in" => "Format foto barang hanya dalam bentuk png, jpg, dan jpeg",
                         ]
-                    ],
+                    ]
                 ])){
                     $validation = \Config\Services::validation();
                     return redirect()->back()->withInput(); 
@@ -139,13 +138,13 @@ class ProductController extends BaseController
                 $save = $this->product_model->insert($post);
             } 
             if($save){
-                // if(!empty($this->request->getPost('id_barang'))){
-                //     session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
-                //     session()->setFlashdata('warna', 'success');
-                // } else {
-                //     session()->setFlashdata('pesan', 'Data berhasil diupdate');
-                //     session()->setFlashdata('warna', 'primary');
-                // }
+                if(!empty($this->request->getPost('id_barang'))){
+                    session()->setFlashdata('pesan', 'Data berhasil diupdate');
+                    session()->setFlashdata('warna', 'primary');
+                } else {
+                    session()->setFlashdata('pesan', 'Data berhasil ditambahkan');
+                    session()->setFlashdata('warna', 'success');
+                }
                 $id =!empty($this->request->getPost('id_barang')) ? $this->request->getPost('id_barang') : $save;
                 return redirect()->to('/product/index');
             }else{
@@ -158,8 +157,8 @@ class ProductController extends BaseController
     public function edit($id=''){
         session();
         if(empty($id)){
-            // session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
-            // session()->setFlashdata('warna', 'danger');
+            session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to('/product/index');
         }
         $qry= $this->product_model->select('*')->where(['id_barang'=>$id]);
@@ -178,7 +177,7 @@ class ProductController extends BaseController
     public function delete($id=''){
         session();
         if(empty($id)){
-            session()->setFlashdata('pesan', 'Id Data Tidak Ditemukan');
+            session()->setFlashdata('pesan', 'ID Data Tidak Ditemukan');
             session()->setFlashdata('warna', 'danger');
             return redirect()->to(base_url('/login'))->with('daftar_berhasil', 'Pendaftaran Akun Berhasil');
         }
@@ -189,7 +188,7 @@ class ProductController extends BaseController
         $delete = $this->product_model->delete($id);
         if($delete){
             session()->setFlashdata('pesan', 'Data berhasil dihapus');
-            session()->setFlashdata('warna', 'success');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to('product/index');
         }
     }

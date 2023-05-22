@@ -11,10 +11,13 @@
 
     <div class="card-body">
     <div class="container-fluid">
+        <?php if(session()->getFlashdata('pesan')) : ?>
+            <div class="alert alert-<?= session()->getFlashdata('warna'); ?>" role="alert">
+                <?= session()->getFlashdata('pesan'); ?>
+            </div>
+        <?php endif; ?>
     <div class="d-flex mb-3">
-        <div class="me-auto p-2"><a href="<?= base_url('product/create/')?>" class="btn btn-dark mb-3">+ Tambah</a></div>
-        <div class="p-2">
-        </div>
+        <div class="me-auto "><a href="<?= base_url('product/create/')?>" class="btn btn-dark mb-3">+ Tambah</a></div>
     </div>
         <table class="table table-dark table-striped">
             <colgroup>

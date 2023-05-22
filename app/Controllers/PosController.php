@@ -55,7 +55,7 @@ class PosController extends BaseController
 
     public function view($id=''){
         if(empty($id)){
-            // $this->session->setFlashdata('error_message','Unknown Data ID.') ;
+            $this->session->setFlashdata('error_message','Unknown Data ID.') ;
             return redirect()->to('/pos/list');
         }
 
@@ -73,8 +73,8 @@ class PosController extends BaseController
     public function edit($id=''){
         session();
         if(empty($id)){
-            // session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
-            // session()->setFlashdata('warna', 'danger');
+            session()->setFlashdata('pesan', 'ID Tidak Ditemukan!');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to('/pos/index');
         }
         $qry= $this->order_model->select("*")->join('transaksi', 'transaksi.id_transaksi = pemesanan.id_transaksi')->join('master_barang', 'master_barang.id_barang = pemesanan.id_barang')->where(['pemesanan.id_transaksi'=>$id]);
@@ -100,70 +100,70 @@ class PosController extends BaseController
         $idBarang = array_map('intval', $dataInput['id_barang']);
         $nilaiKembali = (int)esc($dataInput['total_kembali']);
         $waktu = Time::now('America/Chicago', 'en_US');
-        dd($dataInput);
+        // dd($dataInput);
 
-        // $idPengguna = $this->employee_model->select('id_karyawan')->where('nama_karyawan', $dataInput['nama_karyawan'])->first()['id_karyawan'];
-        // $post = [
-        //     'id_karyawan' => $idPengguna,
-        //     'harga_total' => esc($dataInput['total_harga']),
-        //     'harga_bayar' => esc($dataInput['total_bayar']),
-        //     'total_kembalian' => $nilaiKembali,
-        //     'nama_pembeli' => esc($dataInput['nama_pembeli']),
-        //     'tgl_pembelian' => $waktu
-        // ];    
+        $idPengguna = $this->employee_model->select('id_karyawan')->where('nama_karyawan', $dataInput['nama_karyawan'])->first()['id_karyawan'];
+        $post = [
+            'id_karyawan' => $idPengguna,
+            'harga_total' => esc($dataInput['total_harga']),
+            'harga_bayar' => esc($dataInput['total_bayar']),
+            'total_kembalian' => $nilaiKembali,
+            'nama_pembeli' => esc($dataInput['nama_pembeli']),
+            'tgl_pembelian' => $waktu
+        ];    
         
-        // if(!empty($this->request->getPost('id_transaksi'))){
-        //         $save = $this->product_model->where(['id_transaksi'=>$this->request->getPost('id_transaksi')])->set($post)->update();
-        //     }
-        //     else{
-        //         // if(!$this->validate([
-        //         //     "harga_bayar" => [
-        //         //         "rules" => "required",
-        //         //         "errors" => [
-        //         //             "required" => "Harap isi jumlah bayar terlebih dahulu"
-        //         //         ]
-        //         //     ]
-        //         // ])){
-        //         //     $validation = \Config\Services::validation();
-        //         //     return redirect()->back()->withInput(); 
-        //         // }
-        //         $transaction = $this->transaction_model->insert($post);
-        //         // var_dump($transaction);
-        //         if($transaction) {
-        //             $transaction_id = $this->transaction_model->insertID();
-        //             foreach($idBarang as $k=>$v){
-        //                 $post2['id_transaksi'] = $transaction_id;
-        //                 $post2['id_barang'] = $v ;
-        //                 $post2['jumlah'] = $dataInput['kuantitas'][$k];
-        //                 $post2['total_harga'] = $dataInput['total_harga_barang'][$k];
-        //                 $order = $this->order_model->insert($post2);
-        //                 // var_dump($order);
-        //                 // echo $v . "\n";
-        //                 $updateQty = $dataInput['kuantitas_awal'][$k] - $dataInput['kuantitas'][$k];
-        //                 $this->product_model->update($post2['id_barang'], ['kuantitas' => $updateQty]);
-        //         }
-        //     } 
-        //     if($transaction){
-        //         $id =!empty($this->request->getPost('id_transaksi')) ? $this->request->getPost('id_transaksi') : $transaction;
-        //         return redirect()->to('pos/index');
-        //     }else{
-        //         return view('pos/add', $this->data);
-        //     }   
-        // }
+        if(!empty($this->request->getPost('id_transaksi'))){
+                $save = $this->product_model->where(['id_transaksi'=>$this->request->getPost('id_transaksi')])->set($post)->update();
+            }
+            else{
+                // if(!$this->validate([
+                //     "harga_bayar" => [
+                //         "rules" => "required",
+                //         "errors" => [
+                //             "required" => "Harap isi jumlah bayar terlebih dahulu"
+                //         ]
+                //     ]
+                // ])){
+                //     $validation = \Config\Services::validation();
+                //     return redirect()->back()->withInput(); 
+                // }
+                $transaction = $this->transaction_model->insert($post);
+                // var_dump($transaction);
+                if($transaction) {
+                    $transaction_id = $this->transaction_model->insertID();
+                    foreach($idBarang as $k=>$v){
+                        $post2['id_transaksi'] = $transaction_id;
+                        $post2['id_barang'] = $v ;
+                        $post2['jumlah'] = $dataInput['kuantitas'][$k];
+                        $post2['total_harga'] = $dataInput['total_harga_barang'][$k];
+                        $order = $this->order_model->insert($post2);
+                        // var_dump($order);
+                        // echo $v . "\n";
+                        $updateQty = $dataInput['kuantitas_awal'][$k] - $dataInput['kuantitas'][$k];
+                        $this->product_model->update($post2['id_barang'], ['kuantitas' => $updateQty]);
+                }
+            } 
+            if($transaction){
+                $id =!empty($this->request->getPost('id_transaksi')) ? $this->request->getPost('id_transaksi') : $transaction;
+                return redirect()->to('pos/index');
+            }else{
+                return view('pos/add', $this->data);
+            }   
+        }
     }
 
     public function delete($id=''){
         session();
         if(empty($id)){
-            // session()->setFlashdata('pesan', 'Id Data Tidak Ditemukan');
-            // session()->setFlashdata('warna', 'danger');
+            session()->setFlashdata('pesan', 'ID Data Tidak Ditemukan');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to(base_url('/pos/index'));
         }
 
         $delete = $this->transaction_model->delete($id);
         if($delete){
-            // session()->setFlashdata('pesan', 'Data berhasil dihapus');
-            // session()->setFlashdata('warna', 'success');
+            session()->setFlashdata('pesan', 'Data berhasil dihapus');
+            session()->setFlashdata('warna', 'danger');
             return redirect()->to('pos/index');
         }
     }
