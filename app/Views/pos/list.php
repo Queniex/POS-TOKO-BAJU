@@ -16,10 +16,9 @@
                     <col width="5%">
                     <col width="15%">
                     <col width="15%">
-                    <col width="25%">
+                    <col width="22%">
                     <col width="10%">
-                    <col width="20%">
-                    <col width="10%">
+                    <col width="13%">
                 </colgroup>
                 <thead>
                     <th class="p-1 text-center bg-info">ID</th>
@@ -27,21 +26,43 @@
                     <th class="p-1 text-center">Nama Kasir</th>
                     <th class="p-1 text-center">Nama Kostumer</th>
                     <th class="p-1 text-center">Jumlah Barang</th>
-                    <th class="p-1 text-center">Total Belanja</th>
                     <th class="p-1 text-center">Aksi</th>
                 </thead>
                 <tbody>
                 <?php foreach($transactions as $row): ?>
                         <tr>
-                            <th class="p-1 text-center align-middle bg-primary"><?= $row->id_transaksi; ?></th>
-                            <td class="px-2 py-1 align-middle"><?= $row->tgl_pembelian; ?></td>
-                            <td class="px-2 py-1 align-middle"><?= $row->nama_karyawan; ?></td>
-                            <td class="px-2 py-1 align-middle"><?= $row->nama_pembeli; ?></td>
-                            <td class="px-2 py-1 align-middle text-end"><?= $row->total_barang; ?></td>
-                            <td class="px-2 py-1 align-middle text-end"><?= $row->harga_total; ?></td>
+                            <th class="p-1 text-center align-middle bg-primary"><?= $row["id_transaksi"]; ?></th>
+                            <td class="px-2 py-1 align-middle text-center"><?= $row["tgl_pembelian"]; ?></td>
+                            <td class="px-2 py-1 align-middle text-center"><?= $row["nama_karyawan"]; ?></td>
+                            <td class="px-2 py-1 align-middle text-center"><?= $row["nama_pembeli"]; ?></td>
+                            <td class="px-2 py-1 align-middle text-center">Rp.<?= $row["harga_total"]; ?></td>
                             <td class="px-2 py-1 align-middle text-center">
-                                <a href="<?= base_url('pos/view/'.$row->id_transaksi) ?>" class="mx-2 text-decoration-none text-dark"><i class="fa fa-eye"></i></a>
-                                <a href="<?= base_url('pos/delete/'.$row->id_transaksi)?>" class="mx-2 text-decoration-none text-danger" onclick="if(confirm('Apakah Kamu Ingin Menghapus Produk Ini?') === false) event.preventDefault()"><i class="fa fa-trash"></i></a>
+                                <a href="<?= base_url('pos/view/'.$row["id_transaksi"]) ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0"><i class="fa fa-eye"></i></a>
+                                <a href="<?= base_url('pos/edit/'.$row["id_transaksi"])?>" class="btn btn-primary rounded-0" title="Edit Contact"><i class="fa fa-edit"></i></a>
+                                <a href="#myModal<?= $row["id_transaksi"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash"></i></a>
+
+                                <!-- Modal HTML -->
+                                <div id="myModal<?= $row["id_transaksi"]; ?>" class="modal fade">
+                                    <div class="modal-dialog modal-dialog-centered modal-confirm">
+                                        <div class="modal-content">
+                                            <div class="modal-header flex-column">
+                                                <div class="icon-box">
+                                                <i class='fa fa-remove' style='color:#ff0000'></i>
+                                                </div>						
+                                                <h4 class="modal-title w-100">Apakah Kamu Yakin?</h4>	
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Data Transaksi Yang Terhapus Tidak Bisa Dikembalikan!</p>
+                                            </div>
+                                            <hr>
+                                            <div class="modal-footer justify-content-center">
+                                                <button type="button" class="btn btn-secondary text-black" data-dismiss="modal">BATAL</button>
+                                                <a href="<?= base_url('pos/delete/'.$row["id_transaksi"]) ?>" class="btn btn-danger text-black">HAPUS</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>     
                             </td>
                         </tr>
                 <?php endforeach; ?>
@@ -53,9 +74,13 @@
                 </tbody>
             </table>
             <div>
-                
+            </div>
+            <div class="d-flex justify-content-end">
+                <?= $pager->links("transaction", "pagination"); ?>
             </div>
         </div>
     </div>
 </div>
+
+    
 <?= $this->endSection() ?>

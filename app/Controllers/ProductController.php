@@ -13,22 +13,33 @@ class ProductController extends BaseController
     protected $product_type_model;
     protected $data, $session;
     protected $helpers = ['form'];
+    protected $perPage = 3;
 
     // Initialize Objects
     public function __construct(){
         $this->product_model = new ProductModel();
         $this->product_type_model = new ProductTypeModel();
+        $this->data['pagination'] = 3;
     }
 
     public function index()
     {
+        $keyword = $this->request->getVar('keyword');
+        $query = $this->product_model->orderBy('id_barang ASC')->select('*')->join('jenis_barang', 'jenis_barang.id_jenis = master_barang.id_jenis');
+        if ($keyword) {
+            $query->like('nama_barang', $keyword);
+        }
+        $result = $query->paginate($this->perPage, "products");
+
         $this->data = [
             "page-title" => "List Barang",
             "menu" => "product-list",
             'validation' => \Config\Services::validation(),
-            "list" => $this->product_model->orderBy('id_barang ASC')->select('*')->join('jenis_barang', 'jenis_barang.id_jenis = master_barang.id_jenis')->get()->getResult()
+            "list" => $result,
+            "pager" => $this->product_model->pager
         ];
         return view('manajemen-barang/list', $this->data);
+        //dd($result[0]);
     }
 
     // Create Form Page

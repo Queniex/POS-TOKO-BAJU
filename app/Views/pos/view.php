@@ -46,8 +46,8 @@
                     <tr class="bg-gradient bg-dark text-light">
                         <th class="p1-text-center text-center">Qty</th>
                         <th class="p1-text-center">Produk</th>
-                        <th class="p1-text-center">Jumlah Barang</th>
-                        <th class="p1-text-center">Total</th>
+                        <th class="p1-text-center">Biaya x Jumlah Beli</th>
+                        <th class="p1-text-center">Total Seluruhnya </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,23 +55,23 @@
                     <tr>
                         <td class="px-2 py-1 align-middle text-center"><?= $row->jumlah; ?></td>
                         <td class="px-2 py-1 align-middle"><?= $row->nama_barang; ?></td>
-                        <td class="px-2 py-1 align-middle text-end"><?= $row->harga_per_satuan; ?></td>
-                        <td class="px-2 py-1 align-middle text-end"><?= $row->total_harga; ?></td>
+                        <td class="px-2 py-1 align-middle text-end"><?= $row->harga_per_satuan; ?> x <?= $row->jumlah; ?></td>
+                        <td class="px-2 py-1 align-middle text-end">Rp.<?= $row->total_harga; ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
                 <tfoot>
                     <tr class="bg-greadient bg-warning text-dark">
                         <th class="p-1 text-end" colspan="3">Total Harga</th>
-                        <th class="p-1 text-end"><?= $items[0]->harga_total; ?></th>
+                        <th class="p-1 text-end">Rp.<?= $items[0]->harga_total; ?></th>
                     </tr>
                     <tr class="bg-greadient bg-warning text-dark">
                         <th class="p-1 text-end" colspan="3">Total Bayar</th>
-                        <th class="p-1 text-end"><?= $items[0]->harga_bayar; ?></th>
+                        <th class="p-1 text-end">Rp.<?= $items[0]->harga_bayar; ?></th>
                     </tr>
                     <tr class="bg-greadient bg-warning text-dark">
                         <th class="p-1 text-end" colspan="3">Total Kembalian</th>
-                        <th class="p-1 text-end"><?= $items[0]->total_kembalian; ?></th>
+                        <th class="p-1 text-end">Rp.<?= $items[0]->total_kembalian; ?></th>
                     </tr>
                 </tfoot>
            </table>

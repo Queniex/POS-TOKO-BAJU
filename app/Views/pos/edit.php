@@ -18,6 +18,7 @@
     <div class="card-body">
         <div class="container-fluid">
             <form action="<?= base_url("pos/save") ?>" id="transaction-form" method="POST" onkeydown="return event.key != 'Enter';">
+            <input type="hidden" name="id_barang" value="<?= isset($data['id_transaksi']) ? $data['id_transaksi'] : '' ?>">
                 <input type="hidden" name="nama_karyawan" value="<?= $user['nama_karyawan']; ?>">
                 <input type="hidden" name="total_harga" value="0">
                 <input type="hidden" name="total_bayar" value="">
@@ -72,6 +73,27 @@
                             <col width="20%">
                         </colgroup>
                         <tbody>
+                        <?php if($history > 0) : ?>
+                            <?php foreach($history as $row): ?>
+                                <div id="item-clone">
+                                    <tr data-id="<?= $row->id_barang; ?>">
+                                        <td class="py-1 px-2 align-middle text-center">
+                                            <input type="hidden" name="id_barang[]" value="<?= isset($row->id_barang) ? $row->id_barang : '' ?>">
+                                            <input type="hidden" name="jumlah_awal[]" value="<?= isset($row->jumlah) ? $row->jumlah : '0' ?>">
+                                            <input type="hidden" name="jumlah_akhir[]">
+                                            <input type="hidden" name="harga_per_satuan[]" value="<?= isset($row->harga_per_satuan) ? $row->harga_per_satuan : '0' ?>">
+                                            <button class="btn btn-outline-danger btn-sm rounded-0 rem_item_history" type="button"><i class="fa fa-times"></i></button>
+                                        </td>
+                                        <td class="py-1 px-2 align-middle">
+                                            <input type="number" class="form-control form-control-sm rounded-0 text-center" id="kuantitas" name="kuantitas[]" required="required" min="1" value="<?= isset($row->jumlah) ? $row->jumlah : '0' ?>">
+                                        </td>
+                                        <td class="py-1 px-2 align-middle product_item"><?= $row->id_barang. " - " .$row->nama_barang; ?></td>
+                                        <td class="py-1 px-2 align-middle unit_price text-end"><?= number_format($row->harga_per_satuan); ?>.00</td>
+                                        <td class="py-1 px-2 align-middle total_price text-end"><?= number_format($row->total_harga).'.00'; ?></td>
+                                    </tr>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -87,7 +109,7 @@
                         <tfoot>
                             <tr class="bg-warning bg-gradient bg-opacity-25 text-dark">
                                 <th class="p-1 text-center" colspan="4">Total Harga Barang</th>
-                                <th class="p-1 text-end h4 mb-0" id="gtotal">0.00</th>
+                                <th class="p-1 text-end h4 mb-0" id="gtotal"><?= isset($data['harga_total']) ? number_format($data['harga_total']).'.00' : '0.00' ?></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -96,14 +118,14 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <label for="nama_pembeli" class="control-label">Nama Pembeli</label>
-                        <input type="text" class="form-control rounded-0" id="nama_pembeli" name="nama_pembeli" value="<?= !empty($request->getPost('nama_pembeli')) ? $request->getPost('nama_pembeli') : 'No Name' ?>" required="required">
+                        <input type="text" class="form-control rounded-0" id="nama_pembeli" name="nama_pembeli" value="<?= isset($data['nama_pembeli']) ? $data['nama_pembeli'] : '' ?>" required="required">
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="mb-3">
-                            <label for="total_bayar" class="control-label">Nilai Bayar</label>
-                            <input type="number" step="any" class="form-control rounded-0" id="total_bayar" name="total_bayar" required="required">
+                            <label for="total_kembalian" class="control-label">Nilai Bayar</label>
+                            <input type="number" step="any" class="form-control rounded-0" id="total_kembalian" value="<?= isset($data['harga_bayar']) ? $data['harga_bayar'] : '' ?>"name="total_kembalian" required="required">
                         </div>
-                        <div class="h4 mb-0 fw-bolder text-end"><span class="text-muted">Kembalian:</span> <span class="ms-2" id="change">0.00</span></div>
+                        <div class="h4 mb-0 fw-bolder text-end"><span class="text-muted">Kembalian:</span> <span class="ms-2" id="change"><?= isset($data['total_kembalian']) ? number_format($data['total_kembalian']).'.00' : '0.00' ?></span></div>
                     </div>
                 </div>
         </div>
@@ -115,24 +137,34 @@
 </div>
 
 <noscript id="item-clone">
-    <tr>
-        <td class="py-1 px-2 align-middle text-center">
-            <input type="hidden" name="id_barang[]">
-            <input type="hidden" name="harga_per_satuan[]" value="0">
-            <input type="hidden" name="total_harga_barang[]" value="0">
-            <input type="hidden" name="kuantitas_awal[]" value="0">
-            <button class="btn btn-outline-danger btn-sm rounded-0 rem_item" type="button"><i class="fa fa-times"></i></button>
-        </td>
-        <td class="py-1 px-2 align-middle">
-            <input type="number" class="form-control form-control-sm rounded-0 text-center" id="kuantitas" name="kuantitas[]" required="required" min="1" value="1">
-        </td>
-        <td class="py-1 px-2 align-middle product_item"></td>
-        <td class="py-1 px-2 align-middle unit_price text-end"></td>
-        <td class="py-1 px-2 align-middle total_price text-end">0.00</td>
-    </tr>
+        <tr>
+            <td class="py-1 px-2 align-middle text-center">
+                <input type="hidden" name="id_barang[]">
+                <input type="hidden" name="harga_per_satuan[]" value="0">
+                <input type="hidden" name="kuantitas_awal[]" value="0">
+                <button class="btn btn-outline-danger btn-sm rounded-0 rem_item" type="button"><i class="fa fa-times"></i></button>
+            </td>
+            <td class="py-1 px-2 align-middle">
+                <input type="number" class="form-control form-control-sm rounded-0 text-center" id="kuantitas" name="kuantitas[]" required="required" min="1" value="1">
+            </td>
+            <td class="py-1 px-2 align-middle product_item"></td>
+            <td class="py-1 px-2 align-middle unit_price text-end"></td>
+            <td class="py-1 px-2 align-middle total_price text-end">0.00</td>
+        </tr>
 </noscript>
 
 <script>
+    $(document).ready(function() {
+        $('.rem_item_history').on('click', function() {
+            if(confirm("Apakah kamu yakin akan menghapusnya?") === true){
+            $(this).closest('tr').css('display', 'none')
+            $('#kuantitas').val(0)
+            $('#total_kembalian').val(0)
+            $('#change').text(0)
+            calculate_total();
+            }
+        });
+    });
     function calculate_total(){
         var total = 0;
         $('#item-table tbody tr').each(function(){
@@ -143,10 +175,8 @@
             qty = qty > 0 ? qty : 0;
             tp = parseFloat(price) * parseFloat(qty);
             total += parseFloat(tp)
-            // console.log(tp)
-            // console.log(total)
             $(this).find('.total_price').text(parseFloat(tp).toLocaleString('en-US', {style:'decimal', maximumFractionDigits:2, minimumFractionDigits:2}))
-            $('[name="total_harga_barang[]"]').val(tp)
+            $('#item-table tbody').find('[name="jumlah_akhir[]"]').val(qty)
         })
         $('#gtotal').text(parseFloat(total).toLocaleString('en-US', {style:'decimal', maximumFractionDigits:2, minimumFractionDigits:2}))
         $('[name="total_harga"]').val(total)
@@ -158,30 +188,31 @@
         })
 
         $('#add_item').click(function(){
-            console.log("Hello");
             var pid = $('#product').val()
-            console.log(pid);
+            //console.log(pid);
             var maxValue = $('#product option[value="'+pid+'"]').attr('data-qty')
             if($('#item-table tbody tr[data-id="'+pid+'"]').length > 0){
                 var inputValue = $('[name="kuantitas[]"]').val();
-                console.log(inputValue);
+                // console.log(inputValue);
 
                 if(inputValue == maxValue) {
                     if(confirm("Jumlah Kapasitas Barang Sudah Max!") === true){
                         tr.find('[name="kuantitas[]"]').val(maxValue)
                         calculate_total()
+                        $('#total_kembalian').val(0)
+                        $('#change').val(0)
                     }
                 }
 
-                $('#item-table tbody tr[data-id="'+pid+'"]').find('[name="kuantitas[]"]').val(parseInt($('#item-table tbody tr[data-id="'+pid+'"]').find('[name="kuantitas[]"]').val()) + 1).trigger('change')
-                $('#product').val('').trigger('change')
+                $('#item-table tbody tr[data-id="'+pid+'"]').find('[name="kuantitas[]"]').val(parseInt($('#item-table tbody tr[data-id="'+pid+'"]').find('[name="kuantitas[]"]').val()) + 1).trigger('change');
+                $('#product').val('').trigger('change');
+                // $('#item-table tbody tr[data-id="'+pid+'"]').find('[name="kuantitas[]"]').val(parseInt($('#item-table tbody tr[data-id="'+pid+'"]').find('[name="jumlah_akhir[]"]').val()) + 1);
                 calculate_total()
                 
                 return false;
             }
 
             var pname = $('#product option[value="' + pid + '"]').text()
-            var qty = $(this).find('[name="kuantitas[]"]').val()
             var price = $('#product option[value="'+pid+'"]').attr('data-price')
             var tr = $($('noscript#item-clone').html()).clone()
             tr.attr('data-id', pid)
@@ -195,9 +226,11 @@
             $('#product').val('').trigger('change')
             calculate_total()
             tr.find('.rem_item').click(function(){
-                if(confirm("Are you sure to remove this item") === true){
+                if(confirm("Apakah kamu yakin akan menghapusnya?") === true){
                     tr.remove()
                     calculate_total()
+                    $('#total_kembalian').val(0)
+                    $('#change').text(0)
                 }
             })
             tr.find('[name="kuantitas[]"]').on('change input', function(){
@@ -213,14 +246,15 @@
             })
         })
 
-        $('[name="total_bayar"]').on('input change', function(){
+        $('[name="total_kembalian"]').on('input change', function(){
             var tendered = $(this).val()
             var amount = $('[name="total_harga"]').val()
-            tendered = tendered > 0 ? tendered : 0;
-            amount = amount > 0 ? amount : 0;
+                tendered = tendered > 0 ? tendered : 0;
+                amount = amount > 0 ? amount : 0;
             var change = parseFloat(tendered) - parseFloat(amount);
             console.log(change)
             $('#change').text(parseFloat(change).toLocaleString('en-US', {style:'decimal', maximumFractionDigits:2, minimumFractionDigits:2}))
+            $('[name="total_bayar"]').val(tendered)
             $('[name="total_kembali"]').val(change)
         })
 
@@ -229,7 +263,7 @@
                 alert("Please add at least 1 item first.")
                 return false;
             }
-            var tendered = $('[name="total_bayar"]').val()
+            var tendered = $('[name="total_kembalian"]').val()
             var amount = $('[name="total_harga"]').val()
             if(parseFloat(tendered) < parseFloat(amount)){
                 alert("Invalid tendered amount.")

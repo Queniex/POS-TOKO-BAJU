@@ -43,16 +43,19 @@ $routes->post('/logout', 'UserController::logout', ['filter' => 'auth']);
 $routes->get('/dashboard', 'UserController::index', ['filter' => 'auth']);
 
 // Product
+$routes->get('/product', 'ProductController::index');
 $routes->get('/product/(:any)', 'ProductController::$1', ['filter' => 'admin']);
 $routes->post('/product/(:any)', 'ProductController::$1', ['filter' => 'admin']);
 
 // Employee
+$routes->get('/employee', 'EmployeeController::index');
 $routes->get('/employee/(:any)', 'EmployeeController::$1', ['filter' => 'admin']);
 $routes->post('/employee/(:any)', 'EmployeeController::$1', ['filter' => 'admin']);
 
 // POS
-$routes->get('/pos/(:any)', 'PosController::$1', ['filter' => 'admin']);
-$routes->post('/pos/(:any)', 'PosController::$1', ['filter' => 'admin']);
+$routes->get('/pos', 'PosController::index');
+$routes->get('/pos/(:any)', 'PosController::$1', ['filter' => 'auth']);
+$routes->post('/pos/(:any)', 'PosController::$1', ['filter' => 'auth']);
 
 /*
  * --------------------------------------------------------------------

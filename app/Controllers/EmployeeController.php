@@ -12,6 +12,7 @@ class EmployeeController extends BaseController
     // Model 
     protected $data, $employee_model, $user_model;
     protected $helpers = ['form'];
+    protected $perPage = 2;
 
     // Initialize Objects
     public function __construct(){
@@ -19,15 +20,23 @@ class EmployeeController extends BaseController
         // $this->data['session'] = $this->session;
         $this->employee_model = new EmployeeModel();
         $this->user_model = new UserModel();
+        $this->data['pagination'] = 2;
     }
 
     public function index()
     {
+        $keyword = $this->request->getVar('keyword');
+        $query = $this->employee_model->orderBy('id_karyawan ASC')->select('*')->join('master_pengguna', 'master_pengguna.id = master_karyawan.id_pengguna');
+        if ($keyword) {
+            $query->like('nama_karyawan', $keyword);
+        }
+        $result = $query->paginate($this->perPage, "employees");
         $this->data = [
             "page-title" => "List Karyawan",
             "menu" => "employee-list",
             'validation' => \Config\Services::validation(),
-            "list" => $this->employee_model->orderBy('id_karyawan ASC')->select('*')->join('master_pengguna', 'master_pengguna.id = master_karyawan.id_pengguna')->get()->getResult()
+            "list" => $result,
+            "pager" => $this->employee_model->pager
         ];
         return view('manajemen-karyawan/list', $this->data);
     }
@@ -48,32 +57,77 @@ class EmployeeController extends BaseController
         // var_dump($this->request->getPost('username'));
         session();
         $id = $this->request->getPost('id');
-        
-        session();  
-        $this->data = [
-            "page-title" => "Tambah Karyawan",
-            'validation' => \Config\Services::validation(),
-            "menu" => "employee-add",
-            "username" => $this->request->getPost('username'),
-            "email" => $this->request->getPost('email'),
-            "password" => $this->request->getPost('password'),
-            "role" => $this->request->getPost('role'),
-            "request"=>$this->request
-        ];
 
         if($id != NULL){
+            $this->data = [
+                "page-title" => "Tambah Karyawan",
+                'validation' => \Config\Services::validation(),
+                "menu" => "employee-add",
+                "username" => $this->request->getPost('username'),
+                "email" => $this->request->getPost('email'),
+                "password" => $this->request->getPost('password'),
+                "role" => $this->request->getPost('role'),
+                "request"=>$this->request
+            ];
+            
+
             $idKaryawan = $this->employee_model->select('id_karyawan')->where('id_pengguna', $id)->first()['id_karyawan'];
             $qry= $this->employee_model->select('*')->join('master_pengguna', 'master_pengguna.id = master_karyawan.id_pengguna')->where(['id_karyawan'=>$idKaryawan]);
             $this->data["list"] = $qry->first();
             return view('manajemen-karyawan/edit_employee', $this->data);
         } else {
+            if(!$this->validate([
+                "username" => [
+                    "rules" => "required|max_length[20]|is_unique[master_pengguna.username]",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu",
+                        "max_length" => "{field} maksimal karakter 20",
+                        "is_unique" => "{field} sudah terdaftar",
+                    ]
+                ],
+                "password" => [
+                    "rules" => "required",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu"
+                    ]
+                ],
+                "role" => [
+                    "rules" => "required",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu"
+                    ]
+                ],
+                "email" => [
+                    "rules" => "required|valid_email|max_length[50]",
+                    "errors" => [
+                        "required" => "Harap isi {field} terlebih dahulu",
+                        "valid_email" => "format {field} salah",
+                        "max_length" => "{field} maksimal karakter 50",
+                    ]
+                ],
+            ])){
+                $validation = \Config\Services::validation();
+                return redirect()->back()->withInput(); 
+            }
+    
+            $this->data = [
+                "page-title" => "Tambah Karyawan",
+                'validation' => \Config\Services::validation(),
+                "menu" => "employee-add",
+                "username" => $this->request->getPost('username'),
+                "email" => $this->request->getPost('email'),
+                "password" => $this->request->getPost('password'),
+                "role" => $this->request->getPost('role'),
+                "request"=>$this->request
+            ];
+            
             return view('manajemen-karyawan/add_employee', $this->data);
         }
     }
 
     // Save Form Page
     public function save(){
-
+        session();
         $dataInput = $this->request->getVar();    
 
         $dataAkun = [
@@ -108,27 +162,11 @@ class EmployeeController extends BaseController
         else{
 
             if(!$this->validate([
-                "username" => [
-                    "rules" => "required|max_length[20]|is_unique[master_pengguna.username]",
+                "nama_karyawan" => [
+                    "rules" => "required|is_unique[master_karyawan.nama_karyawan]",
                     "errors" => [
-                        "required" => "Harap isi {field} terlebih dahulu",
-                        "max_length" => "{field} maksimal karakter 20",
-                        "is_unique" => "{field} sudah terdaftar",
-                    ]
-                ],
-                [
-                    "nama_karyawan" => [
-                        "rules" => "required|is_unique[master_karyawan.nama_karyawan]",
-                        "errors" => [
-                            "required" => "Harap isi nama karyawan terlebih dahulu",
-                            "is_unique" => "Nama karyawan sudah terdaftar",
-                        ]
-                    ]
-                ],
-                "password" => [
-                    "rules" => "required",
-                    "errors" => [
-                        "required" => "Harap isi {field} terlebih dahulu"
+                        "required" => "Harap isi nama karyawan terlebih dahulu",
+                        "is_unique" => "Nama karyawan sudah terdaftar",
                     ]
                 ],
                 "jenis_kelamin" => [
@@ -156,20 +194,6 @@ class EmployeeController extends BaseController
                         "uploaded" => "Harap cantumkan foto karyawan terlebih dahulu",
                         "max_size" => "Ukuran maks. foto karyawan 2 MB",
                         "mime_in" => "Format foto karyawan hanya dalam bentuk png, jpg, dan jpeg",
-                    ]
-                ],
-                "role" => [
-                    "rules" => "required",
-                    "errors" => [
-                        "required" => "Harap isi {field} terlebih dahulu"
-                    ]
-                ],
-                "email" => [
-                    "rules" => "required|valid_email|max_length[50]",
-                    "errors" => [
-                        "required" => "Harap isi {field} terlebih dahulu",
-                        "valid_email" => "format {field} salah",
-                        "max_length" => "{field} maksimal karakter 50",
                     ]
                 ],
             ])){

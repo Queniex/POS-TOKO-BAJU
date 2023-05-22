@@ -15,11 +15,11 @@
         <div class="d-flex mb-3">
             <div class="me-auto p-2"><a href="<?= base_url('employee/create/')?>" class="btn btn-dark mb-3">+ Tambah</a></div>
             <div class="p-2">
-                <!-- Example single danger button -->
-                <div class="btn-group">
+                
+                <!-- <div class="btn-group">
                 <button type="button" style="color:black; background-color:grey;" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Tampilkan 
-                </button>
+                </button> -->
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Baju</a></li>
                     <li><a class="dropdown-item" href="#">Celana</a></li>
@@ -53,17 +53,17 @@
                         <?php foreach($list as $row): ?>
                             <tr>
                                 <th class="py-2 align-middle text-center"><?= $i++ ?></th>
-                                <td class="py-2 align-middle text-center"><img src="/img/employee/<?= $row->foto_karyawan; ?>" class="rounded-circle" height="130" width="130"></td>
-                                <td class="align-middle text-center"><?= $row->id_karyawan; ?></td>
-                                <td class="align-middle text-center"><?= $row->nama_karyawan; ?></td>
+                                <td class="py-2 align-middle text-center"><img src="/img/employee/<?= $row["foto_karyawan"]; ?>" class="rounded-circle" height="130" width="130"></td>
+                                <td class="align-middle text-center"><?= $row["id_karyawan"]; ?></td>
+                                <td class="align-middle text-center"><?= $row["nama_karyawan"]; ?></td>
                                 <td class="align-middle text-center">
                                     <div class="d-flex justify-content-center">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal<?= $row->id_karyawan; ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0" title="Lihat Product">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal<?= $row["id_karyawan"]; ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0" title="Lihat Product">
                                         <i class="fa fa-eye"></i>
                                         </button>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="modal<?= $row->id_karyawan; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="modal<?= $row["id_karyawan"]; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                             <div class="modal-header">
@@ -79,29 +79,29 @@
                                                     <!-- Buat Foto -->
                                                     <div class="d-flex justify-content-center">
                                                         <div class="m-2" style="border:1px solid black;">
-                                                            <img src="/img/employee/<?= $row->foto_karyawan; ?>" alt="" width="130" height="130" class="rounded-circle mt-5 mx-2"/>
+                                                            <img src="/img/employee/<?= $row["foto_karyawan"]; ?>" alt="" width="130" height="130" class="rounded-circle mt-5 mx-2"/>
                                                         </div>
                                                     </div>
                                                     <!-- Buat Detail -->
                                                     <div class="p-2 mt-2">
                                                         <ul class="list-group list-group-flush">
                                                         <li class="list-group-item list-group-item-action list-group-item-dark">
-                                                            Nama : <?= $row->nama_karyawan; ?> (<?= $row->username; ?> | <?= $row->id_karyawan; ?>)
+                                                            Nama : <?= $row["nama_karyawan"]; ?> (<?= $row["username"]; ?> | <?= $row["id_karyawan"]; ?>)
                                                         </li>
                                                         <li class="list-group-item p-2">
-                                                            Role : <span style="color:white; padding:5px; border-radius: 25px;" class="bg-dark"><?= $row->role; ?> </span>
+                                                            Role : <span style="color:white; padding:5px; border-radius: 25px;" class="bg-dark"><?= $row["role"]; ?> </span>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            Jenis Kelamin : <?= $row->jenis_kelamin; ?>
+                                                            Jenis Kelamin : <?= $row["jenis_kelamin"]; ?>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            Email : <?= $row->email; ?>
+                                                            Email : <?= $row["email"]; ?>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            Alamat : <?= $row->alamat; ?>
+                                                            Alamat : <?= $row["alamat"]; ?>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            No Telp : <?= $row->no_tlp; ?>
+                                                            No Telp : <?= $row["no_tlp"]; ?>
                                                         </li>
                                                         <li class="list-group-item">
                                                             <div class="bg-dark p-3"></div>
@@ -122,8 +122,32 @@
                                         </div>
                                         </div>
 
-                                        <a href="<?= base_url('employee/edit/'.$row->id_karyawan)?>" class="btn btn-primary rounded-0" title="Edit Contact"><i class="fa fa-edit"></i></a>
-                                        <a href="<?= base_url('employee/delete/'.$row->id_karyawan)?>" onclick="if(confirm('Apakah Kamu Ingin Menghapus Karyawan Ini?') === false) event.preventDefault()" class="btn btn-danger rounded-0" title="Delete Contact"><i class="fa fa-trash"></i></a>
+                                        <a href="<?= base_url('employee/edit/'.$row["id_karyawan"])?>" class="btn btn-primary rounded-0" title="Edit Contact"><i class="fa fa-edit"></i></a>
+                                        <a href="#myModal<?= $row["id_karyawan"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash"></i></a>
+
+                                        <!-- Modal HTML -->
+                                        <div id="myModal<?= $row["id_karyawan"]; ?>" class="modal fade">
+                                            <div class="modal-dialog modal-dialog-centered modal-confirm">
+                                                <div class="modal-content">
+                                                    <div class="modal-header flex-column">
+                                                        <div class="icon-box">
+                                                        <i class='fa fa-remove' style='color:#ff0000'></i>
+                                                        </div>						
+                                                        <h4 class="modal-title w-100">Apakah Kamu Yakin?</h4>	
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Data Karyawan Yang Terhapus Tidak Bisa Dikembalikan!</p>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="modal-footer justify-content-center">
+                                                        <button type="button" class="btn btn-secondary text-black" data-dismiss="modal">BATAL</button>
+                                                        <a href="<?= base_url('employee/delete/'.$row["id_karyawan"])?>" class="btn btn-danger text-black">HAPUS</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
+
                                     </div>
                                 </td>
                             </tr>
@@ -131,6 +155,10 @@
                     <?php endif; ?>
                 </tbody>
             </table>
+
+            <div class="d-flex justify-content-end">
+                <?= $pager->links("employees", "pagination"); ?>
+            </div>
  
         </div>
         </div>

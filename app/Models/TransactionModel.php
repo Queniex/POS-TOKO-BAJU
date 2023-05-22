@@ -13,7 +13,7 @@ class TransactionModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_karyawan', 'total_barang', 'harga_total', 'harga_bayar', 'nama_pembeli', 'tgl_pembelian'];
+    protected $allowedFields    = ['id_karyawan', 'total_barang', 'harga_total', 'total_kembalian', 'harga_bayar', 'nama_pembeli', 'tgl_pembelian'];
 
     // Dates
     protected $useTimestamps = false;
