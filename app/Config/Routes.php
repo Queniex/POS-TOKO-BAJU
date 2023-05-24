@@ -43,7 +43,8 @@ $routes->post('/logout', 'UserController::logout', ['filter' => 'auth']);
 $routes->get('/dashboard', 'UserController::index', ['filter' => 'auth']);
 
 // Product
-$routes->get('/product', 'ProductController::index');
+$routes->get('/product', 'ProductController::index', ['filter' => 'auth']);
+$routes->get('/product/index', 'ProductController::index', ['filter' => 'auth']);
 $routes->get('/product/(:any)', 'ProductController::$1', ['filter' => 'admin']);
 $routes->post('/product/(:any)', 'ProductController::$1', ['filter' => 'admin']);
 

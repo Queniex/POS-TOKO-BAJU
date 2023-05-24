@@ -8,6 +8,7 @@ use App\Models\ProductModel;
 use App\Models\OrderModel;
 use App\Models\TransactionModel;
 use App\Controllers\BaseController;
+use \Dompdf\Dompdf;
 
 class PosController extends BaseController
 {
@@ -166,6 +167,32 @@ class PosController extends BaseController
             session()->setFlashdata('warna', 'danger');
             return redirect()->to('pos/index');
         }
+    }
+
+    <?= $; ?>
+
+    public function printpdf($id=''){
+        $dompdf = new Dompdf();
+        if(empty($id)){
+            $this->session->setFlashdata('error_message','Unknown Data ID.') ;
+            return redirect()->to('/pos/list');
+        }
+
+        $qry= $this->order_model->select("*")->join('transaksi', 'transaksi.id_transaksi = pemesanan.id_transaksi')->join('master_barang', 'master_barang.id_barang = pemesanan.id_barang')->join('master_karyawan', 'master_karyawan.id_karyawan = transaksi.id_karyawan')->where(['transaksi.id_transaksi'=>$id]);
+        $this->data = [
+            "page-title" => "List Order",
+            "menu" => "pos-add",
+            'validation' => \Config\Services::validation(),
+            "items" => $qry->get()->getResult()
+        ];
+        $html = view('pos/printpdf', $this->data);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        // $dompdf->stream();
+        $dompdf->stream('transaksi.pdf', array(
+            "Attachment" => false
+        ));
     }
 
 }

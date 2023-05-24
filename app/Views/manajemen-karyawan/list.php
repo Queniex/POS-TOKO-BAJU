@@ -48,7 +48,7 @@
                                 <td class="align-middle text-center"><?= $row["nama_karyawan"]; ?></td>
                                 <td class="align-middle text-center">
                                     <div class="d-flex justify-content-center">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal<?= $row["id_karyawan"]; ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0" title="Lihat Product">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal<?= $row["id_karyawan"]; ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0" title="Detail Data">
                                         <i class="fa fa-eye"></i>
                                         </button>
 
@@ -112,8 +112,8 @@
                                         </div>
                                         </div>
 
-                                        <a href="<?= base_url('employee/edit/'.$row["id_karyawan"])?>" class="btn btn-primary rounded-0" title="Edit Contact"><i class="fa fa-edit"></i></a>
-                                        <a href="#myModal<?= $row["id_karyawan"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash"></i></a>
+                                        <a href="<?= base_url('employee/edit/'.$row["id_karyawan"])?>" class="btn btn-primary rounded-0" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#myModal<?= $row["id_karyawan"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal" title="Delete Data"><i class="fa fa-trash"></i></a>
 
                                         <!-- Modal HTML -->
                                         <div id="myModal<?= $row["id_karyawan"]; ?>" class="modal fade">

@@ -42,9 +42,9 @@
                             <td class="px-2 py-1 align-middle text-center"><?= $row["nama_pembeli"]; ?></td>
                             <td class="px-2 py-1 align-middle text-center">Rp.<?= $row["harga_total"]; ?></td>
                             <td class="px-2 py-1 align-middle text-center">
-                                <a href="<?= base_url('pos/view/'.$row["id_transaksi"]) ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0"><i class="fa fa-eye"></i></a>
-                                <a href="<?= base_url('pos/edit/'.$row["id_transaksi"])?>" class="btn btn-primary rounded-0" title="Edit Contact"><i class="fa fa-edit"></i></a>
-                                <a href="#myModal<?= $row["id_transaksi"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash"></i></a>
+                                <a href="<?= base_url('pos/view/'.$row["id_transaksi"]) ?>" class="btn btn-success   bg-gradient-light border text-dark rounded-0" title="View Detail Data"><i class="fa fa-eye"></i></a>
+                                <!-- <a href=" // base_url('pos/edit/'.$row["id_transaksi"]) " class="btn btn-primary rounded-0" title="Edit Data"><i class="fa fa-edit"></i></a> -->
+                                <a href="#myModal<?= $row["id_transaksi"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal" title="Delete Data"><i class="fa fa-trash"></i></a>
 
                                 <!-- Modal HTML -->
                                 <div id="myModal<?= $row["id_transaksi"]; ?>" class="modal fade">

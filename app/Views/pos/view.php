@@ -37,11 +37,11 @@
            <hr>
            <table class="table table-stripped table-bordered">
                 <colgroup>
-                <col width="10%">
-                <col width="50%">
-                <col width="20%">
-                <col width="20%">
-            </colgroup>
+                    <col width="10%">
+                    <col width="50%">
+                    <col width="20%">
+                    <col width="20%">
+                </colgroup>
                 <thead>
                     <tr class="bg-gradient bg-dark text-light">
                         <th class="p1-text-center text-center">Qty</th>
@@ -75,6 +75,9 @@
                     </tr>
                 </tfoot>
            </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            <input class="btn btn-dark" value="Print Transaksi" onclick="window.open('<?php echo base_url('pos/printpdf/' . $row->id_transaksi) ?>')"></input>
         </div>
     </div>
 </div>

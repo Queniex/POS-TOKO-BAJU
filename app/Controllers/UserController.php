@@ -109,6 +109,9 @@ class UserController extends BaseController
             "password" => esc($dataInput['password']),
         ];
 
+        // dd($filterData["username"]);
+        $role = $this->model->select('role')->where('username', $filterData["username"])->first()['role'];
+
         $rulesSet = [
             "username" => [
                 "rules" => "required",
@@ -135,8 +138,23 @@ class UserController extends BaseController
         if ($login_account) {
             $password = $login_account['password'];
             if (password_verify($filterData['password'], $password)) {
-                session()->set('logged_in', $login_account);
-                return redirect()->to(base_url('/dashboard'));
+
+                if($role == "admin") {
+                    session()->set([
+                        'role' => 'admin',
+                        'logged_in' => $login_account
+                    ]);
+                    return redirect()->to(base_url('/dashboard'));
+                } else if ($role == "kasir") {
+                    session()->set([
+                        'role' => 'kasir',
+                        'logged_in' => $login_account
+                    ]);
+                    return redirect()->to(base_url('/dashboard'));
+                } else {
+                    session()->setFlashdata('Gagal', "Role tidak dikenali, silahkan login kembali");
+                    return redirect()->back();
+                }
             }
         }
 

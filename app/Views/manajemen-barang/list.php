@@ -17,7 +17,9 @@
             </div>
         <?php endif; ?>
     <div class="d-flex mb-3">
+    <?php if(session()->get('logged_in')['role'] == "admin") : ?>
         <div class="me-auto "><a href="<?= base_url('product/create/')?>" class="btn btn-dark mb-3">+ Tambah</a></div>
+    <?php endif; ?>
     </div>
         <table class="table table-dark table-striped">
             <colgroup>
@@ -44,7 +46,7 @@
                             <td class="align-middle text-center"><?= $row["nama_barang"]; ?></td>
                             <td class="align-middle text-center">
                                 <div class="d-flex justify-content-center">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modal<?= $row["id_barang"]; ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0" title="Lihat Product">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modal<?= $row["id_barang"]; ?>" class="btn btn-success bg-gradient-light border text-dark rounded-0" title="Detail Lihat Product">
                                     <i class="fa fa-eye"></i>
                                     </button>
 
@@ -79,8 +81,10 @@
                                     </div>
                                     </div>
 
-                                    <a href="<?= base_url('product/edit/'.$row["id_barang"])?>" class="btn btn-primary rounded-0" title="Edit Contact"><i class="fa fa-edit"></i></a>
-                                    <a href="#myModal<?= $row["id_barang"]; ?>" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash"></i></a>
+                                    <?php if(session()->get('logged_in')['role'] == "admin") : ?>
+                                        <a href="<?= base_url('product/edit/'.$row["id_barang"])?>" class="btn btn-primary rounded-0" title="Edit Product"><i class="fa fa-edit"></i></a>
+                                        <a href="#myModal<?= $row["id_barang"]; ?>" title="Delete Product" class="btn btn-danger rounded-0" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash"></i></a>
+                                    <?php endif; ?>
 
                                         <!-- Modal HTML -->
                                         <div id="myModal<?= $row["id_barang"]; ?>" class="modal fade">
